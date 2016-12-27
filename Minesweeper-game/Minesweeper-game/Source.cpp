@@ -9,7 +9,7 @@
 #include <ctype.h>
 using namespace std;
 
-int mat[16][30],length,width;
+int mat[16][30],length,width,viz[16][30];
 void matrix(int lenght, int width, unsigned nrMines)
 {
 	for (int i = 0; i < length; i++)
@@ -60,6 +60,74 @@ void afisareMat(int length, int width)
 	}
 }
 
+void afisareMatrix()
+{
+	char x = 254;
+	cout << "   ";
+	for (int k = 0; k < width; k++)
+		if (k > 9)
+			cout << k << " ";
+		else
+			cout << " " << k << " ";
+	cout << endl;
+	for (int i = 0; i < length; i++)
+	{
+		if (i > 9)
+			cout << i << " ";
+		else
+			cout << " "<< i << " ";
+		for (int j = 0; j < width; j++)
+			if (viz[i][j] == 0)
+				cout << " "<< x << " ";
+			else
+				if (viz[i][j] == 2)
+					cout << " " << "P ";
+			else
+				if (mat[i][j] == -1)
+					cout << " " << "X ";
+				else
+					if (mat[i][j] == 0)
+						cout << "   ";
+					else
+						cout << " " << mat[i][j] << " ";
+		cout << endl;
+	}
+}
+
+void initVizMatrix()
+{
+	for (int i = 0; i < length; i++)
+		for (int j = 0; j < width; j++)
+			viz[i][j] = 0;
+}
+
+void inGame()
+{
+	char mouse_button;
+	int gameOver = 0, coord_x, coord_y;
+	while (!gameOver)
+	{
+
+		
+		afisareMatrix();
+		afisareMat(length, width);
+		cout << "Introdu coordonatele casutei selectate ";
+		cin >> coord_x >> coord_y;
+		cout << endl << "Introdu s-click stanga, d-click dreapta ";
+		cin >> mouse_button;
+		//ifBomb();
+		//ifSafe();
+		if (viz[coord_x][coord_y] == 0)
+			if (mouse_button == 's')
+				viz[coord_x][coord_y] = 1;
+			else
+				viz[coord_x][coord_y] = 2;
+		cout << endl << "Game over? ";
+		cin >> gameOver;
+		system("cls");
+	}
+}
+
 void meniu()
 {
 	int replay = 1;
@@ -95,7 +163,9 @@ void meniu()
 			break;
 		}
 		matrix(length, width, nrMines);
-		afisareMat(length, width);
+		//afisareMat(length, width);
+		initVizMatrix();
+		inGame();
 		cout << endl << "Apasa 1 pentru a te intoarce la meniu sau 0 pentru a iesi ";
 		cin >> replay;
 		system("cls");
