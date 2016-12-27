@@ -126,32 +126,62 @@ void firstInput(int nrMines)
 	system("cls");
 }
 
+void gameOver(int win)
+{
+	system("cls");
+	if (win == 1)
+		cout << "Felicitari! Ai castigat! " << endl;
+	else
+		cout << "Game over! Ai lovit o mina! " << endl;
+	for (int i = 0; i < length; i++)
+		for (int j = 0; j < width; j++)
+			if (mat[i][j] == -1)
+				viz[i][j] = 1;
+	afisareMatrix();
+}
+
 void inGame(int nrMines)
 {
 	char mouse_button;
-	int gameOver = 0, coord_x, coord_y;
+	int game_Over = 0, coord_x, coord_y, maxFlags = nrMines, nrFlags = 0, win = 1;
 	initVizMatrix();
 	firstInput(nrMines);
-	while (!gameOver)
+	while (!game_Over)
 	{
 
 		afisareMatrix();
 		afisareMat(length, width);
-		cout << "Introdu coordonatele casutei selectate ";
+		cout << "Introdu coordonatele casutei selectate "<<endl;
 		cin >> coord_x >> coord_y;
 		cout << endl << "Introdu s-click stanga, d-click dreapta ";
 		cin >> mouse_button;
-		//ifBomb();
 		//ifSafe();
 		if (viz[coord_x][coord_y] == 0)
 			if (mouse_button == 's')
 				viz[coord_x][coord_y] = 1;
 			else
-				viz[coord_x][coord_y] = 2;
-		cout << endl << "Game over? ";
-		cin >> gameOver;
+				if (nrFlags < maxFlags)
+				{
+					viz[coord_x][coord_y] = 2;
+					nrFlags++;
+				}
+				else
+					cout << endl << "Ai folosit deja toate steagurile posibile " << endl;
+		else
+			if (viz[coord_x][coord_y] == 2 && mouse_button == 'd')
+			{
+				viz[coord_x][coord_y] = 0;
+				nrFlags--;
+			}
+		if (mouse_button == 's'&&mat[coord_x][coord_y] == -1)
+		{
+			game_Over = 1;
+			win = 0;
+		}
+		
 		system("cls");
 	}
+	gameOver(win);
 }
 
 void meniu()
