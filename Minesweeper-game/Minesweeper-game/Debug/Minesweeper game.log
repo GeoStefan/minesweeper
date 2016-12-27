@@ -1,5 +1,5 @@
 ﻿  Source.cpp
-c:\users\geo\source\repos\minesweeper\minesweeper-game\minesweeper-game\source.cpp(22): warning C4018: '<': signed/unsigned mismatch
-c:\users\geo\source\repos\minesweeper\minesweeper-game\minesweeper-game\source.cpp(65): warning C4309: 'initializing': truncation of constant value
+c:\users\geo\source\repos\minesweeper\minesweeper-game\minesweeper-game\source.cpp(35): warning C4018: '<': signed/unsigned mismatch
+c:\users\geo\source\repos\minesweeper\minesweeper-game\minesweeper-game\source.cpp(78): warning C4309: 'initializing': truncation of constant value
   Minesweeper game.vcxproj -> C:\Users\Geo\Source\Repos\minesweeper\Minesweeper-game\Minesweeper-game\Debug\Minesweeper game.exe
   Minesweeper game.vcxproj -> C:\Users\Geo\Source\Repos\minesweeper\Minesweeper-game\Minesweeper-game\Debug\Minesweeper game.pdb (Partial PDB)

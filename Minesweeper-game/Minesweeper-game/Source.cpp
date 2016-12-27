@@ -10,7 +10,18 @@
 using namespace std;
 
 int mat[16][30],length,width,viz[16][30];
-void matrix(int lenght, int width, unsigned nrMines)
+
+bool isNotMineFirst(int x, int y, int newX, int newY, int oriz[8], int vert[8])
+{
+	if (x == newX && y == newY)
+		return false;
+	for (int i = 0; i < 8; i++)
+		if (x + oriz[i] == newX && y + vert[i] == newY)
+			return false;
+	return true;
+}
+
+void matrix(int lenght, int width, unsigned nrMines, int first_x, int first_y)
 {
 	for (int i = 0; i < length; i++)
 		for (int j = 0; j < width; j++)
@@ -19,6 +30,8 @@ void matrix(int lenght, int width, unsigned nrMines)
 	mt19937 gen(rd());   
 	uniform_int_distribution<> dist(0, width-1);
 	int i = 0,l,c;
+	int oriz[8] = { -1,-1,-1,0,1,1,1,0 };
+	int vert[8] = { -1,0,1,1,1,0,-1,-1 };
 	while (i < nrMines)
 	{
 		l = dist(gen);
@@ -28,17 +41,17 @@ void matrix(int lenght, int width, unsigned nrMines)
 			l = dist(gen);
 		}
 		if (mat[l][c] == 0)
+			if(isNotMineFirst(first_x, first_y, l, c, oriz, vert))
 		{
 			mat[l][c] = -1;
 			i++;
 		}
 	}
-	int oriz[8] = { -1,-1,-1,0,1,1,1,0 };
-	int vert[8] = { -1,0,1,1,1,0,-1,-1 };
+	
 	for (int i = 0; i < length; i++)
 		for (int j = 0; j < width; j++)
 			if (mat[i][j] == 0)
-				for (int k = 0; k < 9; k++)
+				for (int k = 0; k < 8; k++)
 					if (oriz[k] + i >= 0 && oriz[k] + i < length && vert[k] + j >= 0 && vert[k] + j < width)
 						if (mat[oriz[k] + i][vert[k] + j] == -1)
 							mat[i][j]++;
@@ -101,14 +114,27 @@ void initVizMatrix()
 			viz[i][j] = 0;
 }
 
-void inGame()
+void firstInput(int nrMines)
+{
+	int coord_x, coord_y;
+	afisareMatrix();
+	cout << "Introdu coordonatele casutei selectate " << endl;
+	cin >> coord_x >> coord_y;
+	matrix(length, width, nrMines,coord_x,coord_y);
+	viz[coord_x][coord_y] = 1;
+	//safeZone(coord_x,coord_y);
+	system("cls");
+}
+
+void inGame(int nrMines)
 {
 	char mouse_button;
 	int gameOver = 0, coord_x, coord_y;
+	initVizMatrix();
+	firstInput(nrMines);
 	while (!gameOver)
 	{
 
-		
 		afisareMatrix();
 		afisareMat(length, width);
 		cout << "Introdu coordonatele casutei selectate ";
@@ -162,10 +188,9 @@ void meniu()
 			cout << "Hard mode" << endl;
 			break;
 		}
-		matrix(length, width, nrMines);
+		
 		//afisareMat(length, width);
-		initVizMatrix();
-		inGame();
+		inGame(nrMines);
 		cout << endl << "Apasa 1 pentru a te intoarce la meniu sau 0 pentru a iesi ";
 		cin >> replay;
 		system("cls");
