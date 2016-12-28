@@ -75,7 +75,7 @@ void afisareMat(int length, int width)
 
 void afisareMatrix()
 {
-	char x = 254;
+	char x = 254, y=248;
 	cout << "   ";
 	for (int k = 0; k < width; k++)
 		if (k > 9)
@@ -91,18 +91,25 @@ void afisareMatrix()
 			cout << " "<< i << " ";
 		for (int j = 0; j < width; j++)
 			if (viz[i][j] == 0)
-				cout << " "<< x << " ";
+				cout << " " << x << " ";
 			else
 				if (viz[i][j] == 2)
 					cout << " " << "P ";
-			else
-				if (mat[i][j] == -1)
-					cout << " " << "X ";
 				else
-					if (mat[i][j] == 0)
-						cout << "   ";
+					if (viz[i][j] == 1)
+					{
+						if (mat[i][j] == -1)
+							cout << " " << "X ";
+						else
+							if (mat[i][j] == 0)
+								cout << "   ";
+							else
+								cout << " " << mat[i][j] << " ";
+					}
 					else
-						cout << " " << mat[i][j] << " ";
+						if (viz[i][j] == 3)
+							cout << " " << y << " ";
+					
 		cout << endl;
 	}
 }
@@ -114,6 +121,27 @@ void initVizMatrix()
 			viz[i][j] = 0;
 }
 
+void safeZone(int x, int y)
+{
+	viz[x][y] = 1;
+	if (x - 1 >= 0 && y - 1 >= 0 && mat[x - 1][y - 1] == 0 && viz[x - 1][y - 1] == 0)
+		safeZone(x - 1, y - 1);
+	if (x - 1 >= 0 && mat[x - 1][y] == 0 && viz[x - 1][y] == 0)
+		safeZone(x - 1, y);
+	if (x - 1 >= 0 && y + 1 <width && mat[x - 1][y + 1] == 0 && viz[x - 1][y + 1] == 0)
+		safeZone(x - 1, y + 1);
+	if (y + 1 <width && mat[x][y + 1] == 0 && viz[x][y + 1] == 0)
+		safeZone(x, y + 1);
+	if (x + 1 <length && y + 1 <width && mat[x + 1][y + 1] == 0 && viz[x + 1][y + 1] == 0)
+		safeZone(x + 1, y + 1);
+	if (x + 1 <length && mat[x + 1][y] == 0 && viz[x + 1][y] == 0)
+		safeZone(x + 1, y);
+	if (x + 1 <length && y - 1 >= 0 && mat[x + 1][y - 1] == 0 && viz[x + 1][y - 1] == 0)
+		safeZone(x + 1, y - 1);
+	if (y - 1 >= 0 && mat[x][y - 1] == 0 && viz[x][y - 1] == 0)
+		safeZone(x, y - 1);
+}
+
 void firstInput(int nrMines)
 {
 	int coord_x, coord_y;
@@ -122,7 +150,7 @@ void firstInput(int nrMines)
 	cin >> coord_x >> coord_y;
 	matrix(length, width, nrMines,coord_x,coord_y);
 	viz[coord_x][coord_y] = 1;
-	//safeZone(coord_x,coord_y);
+	safeZone(coord_x,coord_y);
 	system("cls");
 }
 
@@ -136,11 +164,15 @@ void gameOver(int win)
 	for (int i = 0; i < length; i++)
 		for (int j = 0; j < width; j++)
 			if (mat[i][j] == -1)
-				viz[i][j] = 1;
+				if (viz[i][j] == 0)
+					viz[i][j] = 1;
+				else
+					if (viz[i][j] == 2)
+						viz[i][j] = 3;
 	afisareMatrix();
 }
 
-void inGame(int nrMines)
+void inGame(int nrMines,char mode)
 {
 	char mouse_button;
 	int game_Over = 0, coord_x, coord_y, maxFlags = nrMines, nrFlags = 0, win = 1;
@@ -148,17 +180,32 @@ void inGame(int nrMines)
 	firstInput(nrMines);
 	while (!game_Over)
 	{
-
+		switch (mode)
+		{
+		case 'e':
+			cout << "Easy mode" << endl;
+			break;
+		case 'm':
+			cout << "Medium mode" << endl;
+			break;
+		case 'h':
+			cout << "Hard mode" << endl;
+			break;
+		}
 		afisareMatrix();
 		afisareMat(length, width);
 		cout << "Introdu coordonatele casutei selectate "<<endl;
 		cin >> coord_x >> coord_y;
 		cout << endl << "Introdu s-click stanga, d-click dreapta ";
 		cin >> mouse_button;
-		//ifSafe();
+		
 		if (viz[coord_x][coord_y] == 0)
 			if (mouse_button == 's')
+			{
 				viz[coord_x][coord_y] = 1;
+				if (mat[coord_x][coord_y] == 0)
+					safeZone(coord_x, coord_y);
+			}
 			else
 				if (nrFlags < maxFlags)
 				{
@@ -187,6 +234,7 @@ void inGame(int nrMines)
 void meniu()
 {
 	int replay = 1;
+	char mode;
 	while (replay)
 	{
 		cout << "		Minesweeper " << endl;
@@ -204,23 +252,26 @@ void meniu()
 			width = 9;
 			nrMines = 10;
 			cout << "Easy mode" << endl;
+			mode = 'e';
 			break;
 		case 'M':
 			length = 16;
 			width = 16;
 			nrMines = 30;
 			cout << "Medium mode" << endl;
+			mode = 'm';
 			break;
 		case 'H':
 			length = 16;
 			width = 30;
 			nrMines = 80;
 			cout << "Hard mode" << endl;
+			mode = 'h';
 			break;
 		}
 		
 		//afisareMat(length, width);
-		inGame(nrMines);
+		inGame(nrMines,mode);
 		cout << endl << "Apasa 1 pentru a te intoarce la meniu sau 0 pentru a iesi ";
 		cin >> replay;
 		system("cls");
