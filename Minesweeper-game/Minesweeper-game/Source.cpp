@@ -121,28 +121,85 @@ void initVizMatrix()
 			viz[i][j] = 0;
 }
 
-void safeZone(int x, int y)
+void safeZone(int x, int y, int &nrCorrect_box)
 {
 	viz[x][y] = 1;
-	if (x - 1 >= 0 && y - 1 >= 0 && mat[x - 1][y - 1] == 0 && viz[x - 1][y - 1] == 0)
-		safeZone(x - 1, y - 1);
-	if (x - 1 >= 0 && mat[x - 1][y] == 0 && viz[x - 1][y] == 0)
-		safeZone(x - 1, y);
-	if (x - 1 >= 0 && y + 1 <width && mat[x - 1][y + 1] == 0 && viz[x - 1][y + 1] == 0)
-		safeZone(x - 1, y + 1);
-	if (y + 1 <width && mat[x][y + 1] == 0 && viz[x][y + 1] == 0)
-		safeZone(x, y + 1);
-	if (x + 1 <length && y + 1 <width && mat[x + 1][y + 1] == 0 && viz[x + 1][y + 1] == 0)
-		safeZone(x + 1, y + 1);
-	if (x + 1 <length && mat[x + 1][y] == 0 && viz[x + 1][y] == 0)
-		safeZone(x + 1, y);
-	if (x + 1 <length && y - 1 >= 0 && mat[x + 1][y - 1] == 0 && viz[x + 1][y - 1] == 0)
-		safeZone(x + 1, y - 1);
-	if (y - 1 >= 0 && mat[x][y - 1] == 0 && viz[x][y - 1] == 0)
-		safeZone(x, y - 1);
+	nrCorrect_box++;
+	if (x - 1 >= 0 && y - 1 >= 0)
+		if(mat[x - 1][y - 1] == 0 && viz[x - 1][y - 1] == 0)
+			safeZone(x - 1, y - 1, nrCorrect_box);
+		else
+			if (mat[x - 1][y - 1] > 0 && viz[x - 1][y - 1] == 0)
+			{
+				nrCorrect_box++;
+				viz[x - 1][y - 1] = 1;
+			}
+	if (x - 1 >= 0)
+		if(mat[x - 1][y] == 0 && viz[x - 1][y] == 0)
+			safeZone(x - 1, y, nrCorrect_box);
+		else
+			if (mat[x - 1][y] > 0 && viz[x - 1][y] == 0)
+			{
+				nrCorrect_box++;
+				viz[x - 1][y] = 1;
+			}
+	if (x - 1 >= 0 && y + 1 <width)
+		if(mat[x - 1][y + 1] == 0 && viz[x - 1][y + 1] == 0)
+			safeZone(x - 1, y + 1, nrCorrect_box);
+		else
+			if (mat[x - 1][y + 1] > 0 && viz[x - 1][y + 1] == 0)
+			{
+				nrCorrect_box++;
+				viz[x - 1][y + 1] = 1;
+			}
+	if (y + 1 <width)
+		if(mat[x][y + 1] == 0 && viz[x][y + 1] == 0)
+			safeZone(x, y + 1, nrCorrect_box);
+		else
+			if (mat[x][y + 1] > 0 && viz[x][y + 1] == 0)
+			{
+				nrCorrect_box++;
+				viz[x][y + 1] = 1;
+			}
+	if (x + 1 <length && y + 1 <width)
+		if(mat[x + 1][y + 1] == 0 && viz[x + 1][y + 1] == 0)
+			safeZone(x + 1, y + 1, nrCorrect_box);
+		else
+			if (mat[x + 1][y + 1] > 0 && viz[x + 1][y + 1] == 0)
+			{
+				nrCorrect_box++;
+				viz[x + 1][y + 1] = 1;
+			}
+	if (x + 1 <length)
+		if(mat[x + 1][y] == 0 && viz[x + 1][y] == 0)
+			safeZone(x + 1, y, nrCorrect_box);
+		else
+			if (mat[x + 1][y] > 0 && viz[x + 1][y] == 0)
+			{
+				nrCorrect_box++;
+				viz[x + 1][y] = 1;
+			}
+	if (x + 1 <length && y - 1 >= 0)
+		if(mat[x + 1][y - 1] == 0 && viz[x + 1][y - 1] == 0)
+			safeZone(x + 1, y - 1, nrCorrect_box);
+		else
+			if (mat[x + 1][y - 1] > 0 && viz[x + 1][y - 1] == 0)
+			{
+				nrCorrect_box++;
+				viz[x + 1][y - 1] = 1;
+			}
+	if (y - 1 >= 0)
+		if(mat[x][y - 1] == 0 && viz[x][y - 1] == 0)
+			safeZone(x, y - 1, nrCorrect_box);
+		else
+			if (mat[x][y - 1] > 0 && viz[x][y - 1] == 0)
+			{
+				nrCorrect_box++;
+				viz[x][y - 1] = 1;
+			}
 }
 
-void firstInput(int nrMines)
+void firstInput(int nrMines, int &nrCorrect_box)
 {
 	int coord_x, coord_y;
 	afisareMatrix();
@@ -150,7 +207,7 @@ void firstInput(int nrMines)
 	cin >> coord_x >> coord_y;
 	matrix(length, width, nrMines,coord_x,coord_y);
 	viz[coord_x][coord_y] = 1;
-	safeZone(coord_x,coord_y);
+	safeZone(coord_x,coord_y, nrCorrect_box);
 	system("cls");
 }
 
@@ -172,12 +229,13 @@ void gameOver(int win)
 	afisareMatrix();
 }
 
-void inGame(int nrMines,char mode)
+void inGame(int nrMines, char mode)
 {
 	char mouse_button;
 	int game_Over = 0, coord_x, coord_y, maxFlags = nrMines, nrFlags = 0, win = 1;
+	int nrSafe_box = length*width - nrMines, nrCorrect_box = 0;
 	initVizMatrix();
-	firstInput(nrMines);
+	firstInput(nrMines,nrCorrect_box);
 	while (!game_Over)
 	{
 		switch (mode)
@@ -203,8 +261,13 @@ void inGame(int nrMines,char mode)
 			if (mouse_button == 's')
 			{
 				viz[coord_x][coord_y] = 1;
+				if (mat[coord_x][coord_y] != -1)
+					nrCorrect_box++;
 				if (mat[coord_x][coord_y] == 0)
-					safeZone(coord_x, coord_y);
+				{
+					nrCorrect_box--;
+					safeZone(coord_x, coord_y,nrCorrect_box);
+				}
 			}
 			else
 				if (nrFlags < maxFlags)
@@ -220,12 +283,17 @@ void inGame(int nrMines,char mode)
 				viz[coord_x][coord_y] = 0;
 				nrFlags--;
 			}
-		if (mouse_button == 's'&&mat[coord_x][coord_y] == -1)
+		if (mouse_button == 's' && mat[coord_x][coord_y] == -1)
 		{
 			game_Over = 1;
 			win = 0;
 		}
-		
+		else
+			if(mouse_button == 's' && nrCorrect_box==nrSafe_box)
+			{
+				game_Over = 1;
+				win = 1;
+			}
 		system("cls");
 	}
 	gameOver(win);
