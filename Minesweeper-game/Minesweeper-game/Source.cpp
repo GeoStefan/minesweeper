@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <random>  
 #include <ctype.h>
+#include "SFML/Graphics.hpp"
+#include "Menu.h"
 using namespace std;
 
 int mat[16][30],length,width,viz[16][30];
@@ -346,16 +348,63 @@ void meniu()
 	}
 }
 
+void meniu2(sf::RenderWindow &window)
+{
+	sf::Font arialrounded;
+	arialrounded.loadFromFile("arialrounded.TTF");
+
+	sf::Text titlu1;
+	titlu1.setFont(arialrounded);
+	titlu1.setString("Welcome");
+	titlu1.setPosition(415, 0);
+	titlu1.setFillColor(sf::Color::Blue);
+	titlu1.setCharacterSize(24);
+	window.draw(titlu1);
+}
+
 int main()
 {
-	int exit = 0;
-	while (!exit)
-	{
-		cout << endl << endl << endl;
+		/*cout << endl << endl << endl;
 		meniu();
-		cout << "Sigur doresti sa iesi ? (1 pt a iesi/0 pt a ramane)"<<endl;
-		cin >> exit;
-		system("cls");
+		system("cls");*/
+	sf::RenderWindow window(sf::VideoMode(960, 660), "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
+
+	int openMenu=1;
+	Menu menu;
+
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			switch (event.type)
+			{
+				case sf::Event::Closed:                   
+					window.close();
+					break;
+			}
+		}
+		cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << endl;
+		if (openMenu)
+		{
+			if (sf::Mouse::getPosition(window).x >= 350 && sf::Mouse::getPosition(window).x < 420 && sf::Mouse::getPosition(window).y >= 320 && sf::Mouse::getPosition(window).y < 355)
+				menu.focus(0);
+			else
+				menu.focus_lost(0);
+			if (sf::Mouse::getPosition(window).x >= 450 && sf::Mouse::getPosition(window).x < 563 && sf::Mouse::getPosition(window).y >= 320 && sf::Mouse::getPosition(window).y < 350)
+				menu.focus(1);
+			else
+				menu.focus_lost(1);
+			if (sf::Mouse::getPosition(window).x >= 590 && sf::Mouse::getPosition(window).x < 660 && sf::Mouse::getPosition(window).y >= 320 && sf::Mouse::getPosition(window).y < 350)
+				menu.focus(2);
+			else
+				menu.focus_lost(2);
+		}
+		window.clear();
+		if (openMenu)
+			menu.draw(window);
+		window.display();
 	}
+	
 	return 0;
 }
