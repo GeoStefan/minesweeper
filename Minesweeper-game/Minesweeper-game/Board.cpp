@@ -124,7 +124,7 @@ void Afisare::initTextures()
 	white.loadFromFile("Images/white.jpg");
 	bomb.loadFromFile("Images/rsz_bomb.jpg");
 	flag.loadFromFile("Images/rsz_flag3.png");
-	bomb_defused.loadFromFile("Images/bombD.jpg");
+	bomb_defused.loadFromFile("Images/rsz_bombD.jpg");
 	boardTexture.loadFromFile("game-background.jpg");
 	boardSprite.setTexture(boardTexture);
 
@@ -137,6 +137,18 @@ void Afisare::initTextures()
 	flags.setCharacterSize(22);
 	flags.setFont(arial);
 	flags.setPosition(sf::Vector2f(740,60));
+	
+	playButton.setFont(arial);
+	playButton.setCharacterSize(30);
+	playButton.setFillColor(sf::Color::White);
+	playButton.setString("Play again");
+	playButton.setPosition(sf::Vector2f(30, 35));
+
+	exitButton.setFont(arial);
+	exitButton.setCharacterSize(30);
+	exitButton.setFillColor(sf::Color::White);
+	exitButton.setString("Exit");
+	exitButton.setPosition(sf::Vector2f(30, 80));
 }
 
 void Afisare::afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window)
@@ -156,4 +168,122 @@ void Afisare::afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window)
 	}
 	
 	window.draw(flags);
+}
+
+void Afisare::gameOver(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window,int win)
+{
+	int indentX, indentY;
+	float squareSize;
+	if (difficulty == 'e')
+	{
+		squareSize = 45;
+		indentX = 277;
+		indentY = 150;
+	}
+	else
+		if (difficulty == 'm')
+		{
+			squareSize = 30;
+			indentX = 244;
+			indentY = 150;
+		}
+		else
+		{
+			squareSize = 30;
+			indentX = 30;
+			indentY = 150;
+		}
+	square.setSize(sf::Vector2f(squareSize, squareSize));
+	window.draw(boardSprite);
+	winner.setFont(cooper);
+	winner.setCharacterSize(42);
+	winner.setFillColor(sf::Color::Yellow);
+	if (win)
+	{
+		winner.setString("You win!");
+		winner.setPosition(400,60);
+	}
+	else
+	{
+		winner.setString("Booom !!! You lost!");
+		winner.setPosition(275,60);
+	}
+	window.draw(winner);
+	for (int i = 0; i<length; i++)
+		for (int j = 0; j < width; j++)
+		{
+			square.setTextureRect(sf::IntRect(0, 0, 150, 150));
+			if (viz[i][j] == 0)
+				square.setTexture(&black);
+			else
+				if (viz[i][j] == 2)
+					square.setTexture(&flag);
+				else
+					if (viz[i][j] == 1)
+					{
+						if (mat[i][j] == -1)
+							square.setTexture(&bomb);
+						else
+							if (mat[i][j] == 0)
+								square.setTexture(&white);
+							else
+							{
+								switch (mat[i][j])
+								{
+								case 1:
+									square.setTexture(&nr1);
+									break;
+								case 2:
+									square.setTexture(&nr2);
+									break;
+								case 3:
+									square.setTexture(&nr3);
+									break;
+								case 4:
+									square.setTexture(&nr4);
+									break;
+								case 5:
+									square.setTexture(&nr5);
+									break;
+								case 6:
+									square.setTexture(&nr6);
+									break;
+								case 7:
+									square.setTexture(&nr7);
+									break;
+								case 8:
+									square.setTexture(&nr8);
+									break;
+								}
+							}
+					}
+					else
+						if (viz[i][j] == 3)
+							square.setTexture(&bomb_defused);
+
+			square.setPosition(sf::Vector2f(squareSize*j + indentX, squareSize*i + indentY));
+			window.draw(square);
+		}
+	
+	window.draw(playButton);
+	window.draw(exitButton);
+}
+
+void Afisare::gameOverFocus(int element, bool focus)
+{
+	switch (focus)
+	{
+	case true:
+		if(element==1)
+			playButton.setFillColor(sf::Color::Yellow);
+		else
+			exitButton.setFillColor(sf::Color::Yellow);
+		break;
+	case false:
+		if (element == 1)
+			playButton.setFillColor(sf::Color::White);
+		else
+			exitButton.setFillColor(sf::Color::White);
+		break;
+	}
 }

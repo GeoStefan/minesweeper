@@ -7,6 +7,8 @@ class Afisare
 public:
 	void afisareMatrix(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window, int nrFlags);
 	void initTextures();
+	void gameOver(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window,int win);
+	void gameOverFocus(int element, bool focus);
 private:
 	void afisareMode(sf::RenderWindow &window, char difficulty);
 	void afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window);
@@ -30,4 +32,7 @@ private:
 	sf::Font cooper;
 	sf::Font arial;
 	sf::Text flags;
+	sf::Text winner;
+	sf::Text playButton;
+	sf::Text exitButton;
 };

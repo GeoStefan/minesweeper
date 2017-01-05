@@ -14,6 +14,8 @@ public:
 	bool ifMine(int x, int y);
 	bool ifGameWin();
 	void prepareTextures();
+	void gameOver(int win,sf::RenderWindow &window);
+	void gameOverFocus(int element, bool focus);
 private:
 	int mat[16][30];
 	int length;

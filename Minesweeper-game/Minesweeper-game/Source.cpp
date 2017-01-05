@@ -112,16 +112,25 @@ int main()
 							if (game.ifMine(x, y))
 							{
 								win = 0;
-								//playGame = 0;
+								playGame = 0;
 								game_Over = 1;
 							}
 							if (game.ifGameWin())
 							{
 								win = 1;
-								//playGame = 0;
+								playGame = 0;
 								game_Over = 1;
-								cout << "ai castigat";
 							}
+						}
+						if (game_Over)
+						{
+							if (sf::Mouse::getPosition(window).x >= 30 && sf::Mouse::getPosition(window).x < 180 && sf::Mouse::getPosition(window).y >= 35 && sf::Mouse::getPosition(window).y < 69)
+							{
+								game_Over = 0;
+								openMenu = 1;
+							}
+							if (sf::Mouse::getPosition(window).x >= 30 && sf::Mouse::getPosition(window).x < 87 && sf::Mouse::getPosition(window).y >= 80 && sf::Mouse::getPosition(window).y < 109)
+								window.close();
 						}
 					}
 					else
@@ -142,7 +151,6 @@ int main()
 						if (event.mouseMove.x >= 350 && event.mouseMove.x < 420 && event.mouseMove.y >= 320 && event.mouseMove.y < 355)
 						{
 							menu.focus(0);
-						
 						}
 						else
 							menu.focus_lost(0);
@@ -159,6 +167,17 @@ int main()
 						else
 							menu.focus_lost(2);
 					}     //close openmenu
+					if (game_Over)
+					{
+						if (sf::Mouse::getPosition(window).x >= 30 && sf::Mouse::getPosition(window).x < 180 && sf::Mouse::getPosition(window).y >= 35 && sf::Mouse::getPosition(window).y < 69)
+							game.gameOverFocus(1, 1);
+						else
+							game.gameOverFocus(1, 0);
+						if (sf::Mouse::getPosition(window).x >= 30 && sf::Mouse::getPosition(window).x < 87 && sf::Mouse::getPosition(window).y >= 80 && sf::Mouse::getPosition(window).y < 109)
+							game.gameOverFocus(2, 1);
+						else
+							game.gameOverFocus(2, 0);
+					}
 					break;
 			}
 		}
@@ -170,6 +189,10 @@ int main()
 		if (playGame || firstClick)
 		{
 			game.drawBoard(window);
+		}
+		if (game_Over)
+		{
+			game.gameOver(win,window);
 		}
 		window.display();
 	}

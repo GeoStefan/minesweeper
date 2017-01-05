@@ -303,3 +303,21 @@ void Game::prepareTextures()
 {
 	board.initTextures();
 }
+
+void Game::gameOver(int win,sf::RenderWindow &window)
+{
+	for (int i = 0; i < length; i++)
+		for (int j = 0; j < width; j++)
+			if (mat[i][j] == -1)
+				if (viz[i][j] == 0)
+					viz[i][j] = 1;
+				else
+					if (viz[i][j] == 2)
+						viz[i][j] = 3;
+	board.gameOver(mat,viz,length,width,mode,window,win);
+}
+
+void Game::gameOverFocus(int element, bool focus)
+{
+	board.gameOverFocus(element, focus);
+}
