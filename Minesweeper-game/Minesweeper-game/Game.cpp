@@ -246,7 +246,7 @@ void Game::firstClickLeft(int x, int y)
 
 void Game::drawBoard(sf::RenderWindow &window)
 {
-	board.afisareMatrix(mat, viz, length, width, mode, window, nrMines);
+	board.afisareMatrix(mat, viz, length, width, mode, window, nrMines-nrFlags);
 }
 
 bool Game::ifMine(int x, int y)
@@ -320,4 +320,9 @@ void Game::gameOver(int win,sf::RenderWindow &window)
 void Game::gameOverFocus(int element, bool focus)
 {
 	board.gameOverFocus(element, focus);
+}
+
+void Game::timer(int m,int s, sf::RenderWindow &window)
+{
+	board.timer(m,s,window);
 }

@@ -136,7 +136,11 @@ void Afisare::initTextures()
 	flags.setFillColor(sf::Color::White);
 	flags.setCharacterSize(22);
 	flags.setFont(arial);
-	flags.setPosition(sf::Vector2f(740,60));
+	flags.setPosition(sf::Vector2f(850,95));
+	flagsMessage.setFont(arial);
+	flagsMessage.setCharacterSize(18);
+	flagsMessage.setString("Available flags:");
+	flagsMessage.setPosition(sf::Vector2f(800, 80));
 	
 	playButton.setFont(arial);
 	playButton.setCharacterSize(30);
@@ -149,25 +153,23 @@ void Afisare::initTextures()
 	exitButton.setFillColor(sf::Color::White);
 	exitButton.setString("Exit");
 	exitButton.setPosition(sf::Vector2f(30, 80));
+
+	timeMinut.setFont(arial);
+	timeMinut.setPosition(sf::Vector2f(860, 30));
+	timeMinut.setFillColor(sf::Color::Yellow);
+	timeSec.setPosition(sf::Vector2f(890, 30));
+	timeSec.setFillColor(sf::Color::Yellow);
+	timeSeparator.setFont(arial);
+	timeSeparator.setPosition(sf::Vector2f(878, 30));
 }
 
 void Afisare::afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window)
 {
-	char s[60];
-	switch (nrFlags)
-	{
-	case 10:
-		flags.setString("10 Mines");
-		break;
-	case 30:
-		flags.setString("30 Mines");
-		break;
-	case 80:
-		flags.setString("80 Mines");
-		break;
-	}
-	
+	char nrf[10];
+	_itoa_s(nrFlags, nrf, 10, 10);
+	flags.setString(nrf);
 	window.draw(flags);
+	window.draw(flagsMessage);
 }
 
 void Afisare::gameOver(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window,int win)
@@ -286,4 +288,20 @@ void Afisare::gameOverFocus(int element, bool focus)
 			exitButton.setFillColor(sf::Color::White);
 		break;
 	}
+}
+
+void Afisare::timer(int m,int s, sf::RenderWindow &window)
+{
+	char minut[10],sec[10];
+	_itoa_s(m, minut, 10, 10);
+	_itoa_s(s, sec, 10, 10);
+	
+	timeMinut.setString(minut);
+	timeSec.setFont(arial);
+	timeSec.setString(sec);
+	timeSeparator.setString(":");
+
+	window.draw(timeSec);
+	window.draw(timeMinut);
+	window.draw(timeSeparator);
 }

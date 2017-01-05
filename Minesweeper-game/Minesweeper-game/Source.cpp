@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <random>  
 #include <ctype.h>
+#include <ctime>
 #include "SFML/Graphics.hpp"
 #include "Menu.h"
 #include "Game.h"
@@ -40,9 +41,9 @@ void position(int &x, int &y)
 
 int main()
 {
-		
 	int openMenu = 1, playGame = 0, firstClick=0;
 	int nrFlags = 0, nrCorrect_box = 0, game_Over = 0, win;
+	clock_t start, test;
 	Menu menu ;
 	Game game;
 	game.prepareTextures();
@@ -65,14 +66,15 @@ int main()
 						{
 							if (game.mouseInBoard(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y))
 							{
-								cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << endl;
+								/*cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << endl;
 								
 								int x= sf::Mouse::getPosition(window).x, y= sf::Mouse::getPosition(window).y;
-								position(x, y);
+								position(x, y);*/
 								//cout << "casuta de coordonate " << y << " " << x << endl;
 								game.firstClickLeft(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 								playGame = 1;
 								firstClick = 0;
+								start = clock();
 								cout << "da";
 							}
 
@@ -190,9 +192,23 @@ int main()
 		{
 			game.drawBoard(window);
 		}
+		if (playGame)
+		{
+			test = clock();
+			int t = int((test - start) / 1000);
+			int m, s;
+			m = t / 60;
+			s = t % 60;
+			game.timer(m,s,window);
+		}
 		if (game_Over)
 		{
 			game.gameOver(win,window);
+			int t = int((test - start) / 1000);
+			int m, s;
+			m = t / 60;
+			s = t % 60;
+			game.timer(m, s, window);
 		}
 		window.display();
 	}

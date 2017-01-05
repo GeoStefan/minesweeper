@@ -9,6 +9,7 @@ public:
 	void initTextures();
 	void gameOver(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window,int win);
 	void gameOverFocus(int element, bool focus);
+	void timer(int m,int s, sf::RenderWindow &window);
 private:
 	void afisareMode(sf::RenderWindow &window, char difficulty);
 	void afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window);
@@ -35,4 +36,8 @@ private:
 	sf::Text winner;
 	sf::Text playButton;
 	sf::Text exitButton;
+	sf::Text timeSec;
+	sf::Text timeMinut;
+	sf::Text timeSeparator;
+	sf::Text flagsMessage;
 };
