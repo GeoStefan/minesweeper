@@ -1,31 +1,31 @@
-#include<iostream>
+#include <iostream>
+#include <string.h>
+#include <stdlib.h>
 #include "Board.h"
 #include "SFML/Graphics.hpp"
 using namespace std;
 
 void Afisare::afisareMode(sf::RenderWindow &window, char difficulty)
 {
-	cooper.loadFromFile("COOPBL.TTF");
-	mode.setPosition(270, 30);
-	mode.setFillColor(sf::Color::Yellow);
-	mode.setCharacterSize(62);
-	mode.setFont(cooper);
 	switch (difficulty)
 	{
 	case 'e':
 		mode.setString("Easy mode");
+		mode.setPosition(310, 30);
 		break;
 	case 'm':
 		mode.setString("Medium mode");
+		mode.setPosition(270, 30);
 		break;
 	case 'h':
 		mode.setString("Hard mode");
+		mode.setPosition(310, 30);
 		break;
 	}
 	window.draw(mode);
 }
 
-void Afisare::afisareMatrix(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window)
+void Afisare::afisareMatrix(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window, int nrFlags)
 {
 	int indentX,indentY;
 	float squareSize;
@@ -49,24 +49,10 @@ void Afisare::afisareMatrix(int mat[16][30], int viz[16][30], int length, int wi
 			indentY = 150;
 		}
 	square.setSize(sf::Vector2f(squareSize, squareSize));
-	nr1.loadFromFile("Images/number1.jpg");
-	nr2.loadFromFile("Images/number2.jpg");
-	nr3.loadFromFile("Images/number3.jpg");
-	nr4.loadFromFile("Images/number4.jpg");
-	nr5.loadFromFile("Images/number5.jpg");
-	nr6.loadFromFile("Images/number6.jpg");
-	nr7.loadFromFile("Images/number7.jpg");
-	nr8.loadFromFile("Images/number8.jpg");
-	black.loadFromFile("Images/rsz_black3.jpg");
-	white.loadFromFile("Images/white.jpg");
-	bomb.loadFromFile("Images/rsz_bomb.jpg");
-	flag.loadFromFile("Images/rsz_flag3.png");
-	bomb_defused.loadFromFile("Images/bombD.jpg");
-	boardTexture.loadFromFile("game-background.jpg");
-	boardSprite.setTexture(boardTexture);
-	Afisare afisp;
+	
 	window.draw(boardSprite);
-	afisp.afisareMode(window, difficulty);
+	afisareMode(window, difficulty);
+	afisNrAvailableFlags(nrFlags,window);
 	for(int i=0;i<length;i++)
 		for (int j = 0; j < width; j++)
 		{
@@ -122,4 +108,52 @@ void Afisare::afisareMatrix(int mat[16][30], int viz[16][30], int length, int wi
 			square.setPosition(sf::Vector2f(squareSize*j+indentX, squareSize*i+indentY));
 			window.draw(square);
 		}
+}
+
+void Afisare::initTextures()
+{
+	nr1.loadFromFile("Images/number1.jpg");
+	nr2.loadFromFile("Images/number2.jpg");
+	nr3.loadFromFile("Images/number3.jpg");
+	nr4.loadFromFile("Images/number4.jpg");
+	nr5.loadFromFile("Images/number5.jpg");
+	nr6.loadFromFile("Images/number6.jpg");
+	nr7.loadFromFile("Images/number7.jpg");
+	nr8.loadFromFile("Images/number8.jpg");
+	black.loadFromFile("Images/rsz_black3.jpg");
+	white.loadFromFile("Images/white.jpg");
+	bomb.loadFromFile("Images/rsz_bomb.jpg");
+	flag.loadFromFile("Images/rsz_flag3.png");
+	bomb_defused.loadFromFile("Images/bombD.jpg");
+	boardTexture.loadFromFile("game-background.jpg");
+	boardSprite.setTexture(boardTexture);
+
+	cooper.loadFromFile("COOPBL.TTF");
+	arial.loadFromFile("arialrounded.TTF");
+	mode.setFillColor(sf::Color::Yellow);
+	mode.setCharacterSize(62);
+	mode.setFont(cooper);
+	flags.setFillColor(sf::Color::White);
+	flags.setCharacterSize(22);
+	flags.setFont(arial);
+	flags.setPosition(sf::Vector2f(740,60));
+}
+
+void Afisare::afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window)
+{
+	char s[60];
+	switch (nrFlags)
+	{
+	case 10:
+		flags.setString("10 Mines");
+		break;
+	case 30:
+		flags.setString("30 Mines");
+		break;
+	case 80:
+		flags.setString("80 Mines");
+		break;
+	}
+	
+	window.draw(flags);
 }

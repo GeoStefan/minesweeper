@@ -5,9 +5,11 @@ using namespace std;
 class Afisare
 {
 public:
-	void afisareMatrix(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window);
-	void afisareMode(sf::RenderWindow &window, char difficulty);
+	void afisareMatrix(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window, int nrFlags);
+	void initTextures();
 private:
+	void afisareMode(sf::RenderWindow &window, char difficulty);
+	void afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window);
 	sf::Texture nr1;
 	sf::Texture nr2;
 	sf::Texture nr3;
@@ -26,4 +28,6 @@ private:
 	sf::Texture boardTexture;
 	sf::Text mode;
 	sf::Font cooper;
+	sf::Font arial;
+	sf::Text flags;
 };

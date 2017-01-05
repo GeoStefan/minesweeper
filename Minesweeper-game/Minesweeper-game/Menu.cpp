@@ -47,7 +47,6 @@ Menu::Menu()
 void Menu::draw(sf::RenderWindow &window)
 {
 	window.draw(menuSprite);
-	//window.draw(title1);
 	window.draw(title2);
 	window.draw(title3);
 	for (int i = 0; i < NUMBER_OF_DIFFICULTIES; i++)

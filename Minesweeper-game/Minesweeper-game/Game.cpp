@@ -7,6 +7,8 @@
 #include "Board.h"
 using namespace std;
 
+Afisare board;
+
 Game::Game()
 {
 
@@ -244,8 +246,7 @@ void Game::firstClickLeft(int x, int y)
 
 void Game::drawBoard(sf::RenderWindow &window)
 {
-	Afisare board;
-	board.afisareMatrix(mat, viz, length, width, mode, window);
+	board.afisareMatrix(mat, viz, length, width, mode, window, nrMines);
 }
 
 bool Game::ifMine(int x, int y)
@@ -298,175 +299,7 @@ void Game::inGame(int x, int y, char mouse)
 
 }
 
-/*
-
-
-
-
-
-void Game::safeZone(int x, int y, int &nrCorrect_box)
+void Game::prepareTextures()
 {
-	viz[x][y] = 1;
-	nrCorrect_box++;
-	if (x - 1 >= 0 && y - 1 >= 0)
-		if (mat[x - 1][y - 1] == 0 && viz[x - 1][y - 1] == 0)
-			safeZone(x - 1, y - 1, nrCorrect_box);
-		else
-			if (mat[x - 1][y - 1] > 0 && viz[x - 1][y - 1] == 0)
-			{
-				nrCorrect_box++;
-				viz[x - 1][y - 1] = 1;
-			}
-	if (x - 1 >= 0)
-		if (mat[x - 1][y] == 0 && viz[x - 1][y] == 0)
-			safeZone(x - 1, y, nrCorrect_box);
-		else
-			if (mat[x - 1][y] > 0 && viz[x - 1][y] == 0)
-			{
-				nrCorrect_box++;
-				viz[x - 1][y] = 1;
-			}
-	if (x - 1 >= 0 && y + 1 <width)
-		if (mat[x - 1][y + 1] == 0 && viz[x - 1][y + 1] == 0)
-			safeZone(x - 1, y + 1, nrCorrect_box);
-		else
-			if (mat[x - 1][y + 1] > 0 && viz[x - 1][y + 1] == 0)
-			{
-				nrCorrect_box++;
-				viz[x - 1][y + 1] = 1;
-			}
-	if (y + 1 <width)
-		if (mat[x][y + 1] == 0 && viz[x][y + 1] == 0)
-			safeZone(x, y + 1, nrCorrect_box);
-		else
-			if (mat[x][y + 1] > 0 && viz[x][y + 1] == 0)
-			{
-				nrCorrect_box++;
-				viz[x][y + 1] = 1;
-			}
-	if (x + 1 <length && y + 1 <width)
-		if (mat[x + 1][y + 1] == 0 && viz[x + 1][y + 1] == 0)
-			safeZone(x + 1, y + 1, nrCorrect_box);
-		else
-			if (mat[x + 1][y + 1] > 0 && viz[x + 1][y + 1] == 0)
-			{
-				nrCorrect_box++;
-				viz[x + 1][y + 1] = 1;
-			}
-	if (x + 1 <length)
-		if (mat[x + 1][y] == 0 && viz[x + 1][y] == 0)
-			safeZone(x + 1, y, nrCorrect_box);
-		else
-			if (mat[x + 1][y] > 0 && viz[x + 1][y] == 0)
-			{
-				nrCorrect_box++;
-				viz[x + 1][y] = 1;
-			}
-	if (x + 1 <length && y - 1 >= 0)
-		if (mat[x + 1][y - 1] == 0 && viz[x + 1][y - 1] == 0)
-			safeZone(x + 1, y - 1, nrCorrect_box);
-		else
-			if (mat[x + 1][y - 1] > 0 && viz[x + 1][y - 1] == 0)
-			{
-				nrCorrect_box++;
-				viz[x + 1][y - 1] = 1;
-			}
-	if (y - 1 >= 0)
-		if (mat[x][y - 1] == 0 && viz[x][y - 1] == 0)
-			safeZone(x, y - 1, nrCorrect_box);
-		else
-			if (mat[x][y - 1] > 0 && viz[x][y - 1] == 0)
-			{
-				nrCorrect_box++;
-				viz[x][y - 1] = 1;
-			}
+	board.initTextures();
 }
-
-void Game::firstInput(int nrMines, int &nrCorrect_box,char difficulty, sf::RenderWindow &window)
-{
-	int coord_x, coord_y;
-	Afisare afis;
-	afis.afisareMatrix(mat,viz,length,width,difficulty,window);
-	cout << "Introdu coordonatele casutei selectate " << endl;
-	cin >> coord_x >> coord_y;
-	Game game;
-	game.matrix(length, width, nrMines, coord_x, coord_y);
-	viz[coord_x][coord_y] = 1;
-	game.safeZone(coord_x, coord_y, nrCorrect_box);
-	system("cls");
-}
-
-void Game::inGame(int mat[16][30], int viz[16][30], int length, int width, int nrMines, char mode,int x,int y,char mouse , int &nrFlags, int &nrCorrect_box, int &game_Over, int &win)
-{
-	bool inBoard=false;
-	switch (mode)
-	{
-	case 'e':
-		if (x >= 277 && x <= 682 && y >= 150 && y <= 555)				//verific daca a apasat pe campul minat
-			inBoard = true;
-		x -= 277;
-		x /= 45;
-		y -= 150;
-		y /= 45;
-		break;
-	case 'm':
-		if (x >= 244 && x <= 724 && y >= 150 && y <= 630)
-			inBoard = true;
-		x -= 244;
-		x /= 30;
-		y -= 150;
-		y /= 30;
-		break;
-	case 'h':
-		if (x >= 30 && x <= 930 && y >= 150 && y <= 630)
-			inBoard = true;
-		x -= 30;
-		x /= 45;
-		y -= 150;
-		y /= 30;
-		break;
-	}
-	if (inBoard)
-	{
-		Game gamei;
-		int maxFlags = nrMines, nrSafe_box = length*width - nrMines;
-		if(viz[y][x]==0)
-			if(mouse=='s')
-			{
-				viz[y][x] = 1;
-				if (mat[y][x] != -1)
-					nrCorrect_box++;
-				if (mat[y][x] == 0)
-				{
-					nrCorrect_box--;
-					gamei.safeZone(y, x, nrCorrect_box);
-				}
-			}
-			else
-				if (nrFlags < maxFlags)
-				{
-					viz[y][x] = 2;
-					nrFlags++;
-				}
-				else
-					cout << endl << "Ai folosit deja toate steagurile posibile " << endl;
-		else
-			if (viz[y][x] == 2 && mouse == 'd')
-			{
-				viz[y][x] = 0;
-				nrFlags--;
-			}
-		if (mouse == 's' && mat[y][x] == -1)
-		{
-			game_Over = 1;
-			win = 0;
-		}
-		else
-			if (mouse == 's' && nrCorrect_box == nrSafe_box)
-			{
-				game_Over = 1;
-				win = 1;
-			}
-	}
-
-}*/

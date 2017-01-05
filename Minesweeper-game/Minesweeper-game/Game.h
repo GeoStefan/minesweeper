@@ -13,6 +13,7 @@ public:
 	void drawBoard(sf::RenderWindow &window);
 	bool ifMine(int x, int y);
 	bool ifGameWin();
+	void prepareTextures();
 private:
 	int mat[16][30];
 	int length;
@@ -24,7 +25,6 @@ private:
 	char mode;
 	void position(int &x, int &y);
 	void safeZone(int x, int y);
-	void afisMineDisponibile();
 	void matrix(int x, int y);
 	bool isNotMineFirst(int x, int y, int newX, int newY);
 };
