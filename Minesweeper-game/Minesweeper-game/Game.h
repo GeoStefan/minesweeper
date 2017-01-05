@@ -17,6 +17,7 @@ public:
 	void gameOver(int win,sf::RenderWindow &window);
 	void gameOverFocus(int element, bool focus);
 	void timer(int m,int s,sf::RenderWindow &window);
+	bool middleClick(int x, int y);
 private:
 	int mat[16][30];
 	int length;

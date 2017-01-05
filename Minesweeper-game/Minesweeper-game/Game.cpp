@@ -326,3 +326,39 @@ void Game::timer(int m,int s, sf::RenderWindow &window)
 {
 	board.timer(m,s,window);
 }
+
+bool Game::middleClick(int x, int y)
+{
+	int oriz[8] = { -1,-1,-1,0,1,1,1,0 };
+	int vert[8] = { -1,0,1,1,1,0,-1,-1 };
+	bool mine = false;
+	position(x, y);
+	if (viz[y][x] == 0)
+	{
+		viz[y][x] = 1;
+		if (mat[y][x] > 0)
+			nrCorrect_box++;
+		else
+			if (mat[y][x] == 0)
+				safeZone(y, x);
+			else
+				if (mat[y][x] == -1)
+					mine = true;
+		if(mat[y][x]!=0)
+		for(int i=0;i<8;i++)
+			if(oriz[i]+y>=0 && oriz[i]+y<length && vert[i]+x>=0 && vert[i]+x<width)
+				if (viz[oriz[i] + y][vert[i] + x] == 0)
+				{
+					viz[oriz[i] + y][vert[i] + x] = 1;
+					if (mat[oriz[i] + y][vert[i] + x] > 0)
+						nrCorrect_box++;
+					else
+						if (mat[oriz[i] + y][vert[i] + x] == 0)
+							safeZone(oriz[i] + y, vert[i] + x);
+						else
+							if (mat[oriz[i] + y][vert[i] + x] == -1)
+								mine = true;
+				}
+	}
+	return mine;
+}

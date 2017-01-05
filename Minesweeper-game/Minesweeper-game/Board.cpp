@@ -134,13 +134,14 @@ void Afisare::initTextures()
 	mode.setCharacterSize(62);
 	mode.setFont(cooper);
 	flags.setFillColor(sf::Color::White);
-	flags.setCharacterSize(22);
+	flags.setCharacterSize(30);
 	flags.setFont(arial);
-	flags.setPosition(sf::Vector2f(850,95));
-	flagsMessage.setFont(arial);
-	flagsMessage.setCharacterSize(18);
-	flagsMessage.setString("Available flags:");
-	flagsMessage.setPosition(sf::Vector2f(800, 80));
+	flags.setPosition(sf::Vector2f(860,85));
+	greenflag.loadFromFile("Images/rsz_greenflag.png");
+	flagIcon.setTexture(&greenflag);
+	flagIcon.setTextureRect(sf::IntRect(0, 0, 180, 194));
+	flagIcon.setSize(sf::Vector2f(30, 31));
+	flagIcon.setPosition(sf::Vector2f(820, 90));
 	
 	playButton.setFont(arial);
 	playButton.setCharacterSize(30);
@@ -161,6 +162,12 @@ void Afisare::initTextures()
 	timeSec.setFillColor(sf::Color::Yellow);
 	timeSeparator.setFont(arial);
 	timeSeparator.setPosition(sf::Vector2f(878, 30));
+
+	clockTexture.loadFromFile("Images/clock.png");
+	clockIcon.setTexture(&clockTexture);
+	clockIcon.setTextureRect(sf::IntRect(0, 0, 180, 180));
+	clockIcon.setPosition(sf::Vector2f(820, 34));
+	clockIcon.setSize(sf::Vector2f(30, 30));
 }
 
 void Afisare::afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window)
@@ -169,7 +176,7 @@ void Afisare::afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window)
 	_itoa_s(nrFlags, nrf, 10, 10);
 	flags.setString(nrf);
 	window.draw(flags);
-	window.draw(flagsMessage);
+	window.draw(flagIcon);
 }
 
 void Afisare::gameOver(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window,int win)
@@ -304,4 +311,5 @@ void Afisare::timer(int m,int s, sf::RenderWindow &window)
 	window.draw(timeSec);
 	window.draw(timeMinut);
 	window.draw(timeSeparator);
+	window.draw(clockIcon);
 }

@@ -39,5 +39,8 @@ private:
 	sf::Text timeSec;
 	sf::Text timeMinut;
 	sf::Text timeSeparator;
-	sf::Text flagsMessage;
+	sf::Texture greenflag;
+	sf::RectangleShape flagIcon;
+	sf::Texture clockTexture;
+	sf::RectangleShape clockIcon;
 };

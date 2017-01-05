@@ -66,11 +66,6 @@ int main()
 						{
 							if (game.mouseInBoard(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y))
 							{
-								/*cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << endl;
-								
-								int x= sf::Mouse::getPosition(window).x, y= sf::Mouse::getPosition(window).y;
-								position(x, y);*/
-								//cout << "casuta de coordonate " << y << " " << x << endl;
 								game.firstClickLeft(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 								playGame = 1;
 								firstClick = 0;
@@ -146,6 +141,32 @@ int main()
 									game.inGame(x, y, 'd');
 							}
 						}
+						else
+							if (event.key.code == sf::Mouse::Middle)
+							{
+								cout << "butonul din mijloc" << endl;
+								if (playGame)
+								{
+									int x = sf::Mouse::getPosition(window).x;
+									int y = sf::Mouse::getPosition(window).y;
+									if (game.mouseInBoard(x, y))
+									{
+										if(game.middleClick(x, y))
+										{
+											win = 0;
+											playGame = 0;
+											game_Over = 1;
+										}
+										else
+										if (game.ifGameWin())
+										{
+											win = 1;
+											playGame = 0;
+											game_Over = 1;
+										}
+									}
+								}
+							}
 					break;
 				case sf::Event::MouseMoved:
 					if (openMenu)
