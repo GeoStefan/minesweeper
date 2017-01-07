@@ -223,9 +223,8 @@ void Game::safeZone(int x, int y)
 void Game::firstClickLeft(int x, int y)
 {
 	int coordx = x, coordy = y;
-	cout << " coordonatele brute " << coordx << " " << coordy << endl;
 	position(coordx, coordy);
-	cout << "coordonatele in firstclick " << coordx << " " << coordy << endl;
+	//cout << "coordonatele in firstclick " << coordy << " " << coordx << endl;
 	viz[coordy][coordx] = 1;
 	matrix(coordy, coordx);
 	safeZone(coordy, coordx);
@@ -235,13 +234,13 @@ void Game::firstClickLeft(int x, int y)
 			cout << " " << mat[i][j] << " ";
 		cout << endl;
 	}
-	cout << endl;
+	cout << endl;/*
 	for (int i = 0; i < length; i++)
 	{
 		for (int j = 0; j < width; j++)
 			cout << viz[i][j] << " ";
 		cout << endl;
-	}
+	}*/
 }
 
 void Game::drawBoard(sf::RenderWindow &window)

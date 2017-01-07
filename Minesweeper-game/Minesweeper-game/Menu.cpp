@@ -24,7 +24,6 @@ Menu::Menu()
 	title3.setFillColor(sf::Color::White);
 	title3.setCharacterSize(34);
 
-	
 	difficulty[0].setFont(arialrounded);
 	difficulty[0].setString("Easy");
 	difficulty[0].setFillColor(sf::Color::White);

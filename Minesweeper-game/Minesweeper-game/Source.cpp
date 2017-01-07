@@ -13,36 +13,10 @@
 #include "Game.h"
 using namespace std;
 
-void position(int &x, int &y)
-{
-	char mode = 'e';
-	switch (mode)
-	{
-	case 'e':
-		x -= 277;
-		x /= 45;
-		y -= 150;
-		y /= 45;
-		break;
-	case 'm':
-		x -= 244;
-		x /= 30;
-		y -= 150;
-		y /= 30;
-		break;
-	case 'h':
-		x -= 30;
-		x /= 45;
-		y -= 150;
-		y /= 30;
-		break;
-	}
-}
-
 int main()
 {
 	int openMenu = 1, playGame = 0, firstClick=0;
-	int nrFlags = 0, nrCorrect_box = 0, game_Over = 0, win;
+	int game_Over = 0, win;
 	clock_t start, test;
 	Menu menu ;
 	Game game;
@@ -70,7 +44,7 @@ int main()
 								playGame = 1;
 								firstClick = 0;
 								start = clock();
-								cout << "da";
+								//cout << "da";
 							}
 
 						}		//close firstClick */
@@ -79,21 +53,21 @@ int main()
 						{
 							if (sf::Mouse::getPosition(window).x >= 350 && sf::Mouse::getPosition(window).x < 420 && sf::Mouse::getPosition(window).y >= 320 && sf::Mouse::getPosition(window).y < 355)
 							{
-								cout << "apasa easy" << endl;
+								//cout << "apasa easy" << endl;
 								game.init('e');
 								firstClick = 1;
 								openMenu = 0;
 							}
 							if (sf::Mouse::getPosition(window).x >= 450 && sf::Mouse::getPosition(window).x < 563 && sf::Mouse::getPosition(window).y >= 320 && sf::Mouse::getPosition(window).y < 350)
 							{
-								cout << "apasa med" << endl;
+								//cout << "apasa med" << endl;
 								game.init('m');
 								firstClick = 1;
 								openMenu = 0;
 							}
 							if(sf::Mouse::getPosition(window).x >= 590 && sf::Mouse::getPosition(window).x < 660 && sf::Mouse::getPosition(window).y >= 320 && sf::Mouse::getPosition(window).y < 350)
 							{
-								cout << "apasa hard" << endl;
+								//cout << "apasa hard" << endl;
 								game.init('h');
 								firstClick = 1;
 								openMenu = 0;
@@ -144,7 +118,6 @@ int main()
 						else
 							if (event.key.code == sf::Mouse::Middle)
 							{
-								cout << "butonul din mijloc" << endl;
 								if (playGame)
 								{
 									int x = sf::Mouse::getPosition(window).x;
@@ -204,7 +177,6 @@ int main()
 					break;
 			}
 		}
-		//cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << endl;
 		
 		window.clear();
 		if (openMenu)
