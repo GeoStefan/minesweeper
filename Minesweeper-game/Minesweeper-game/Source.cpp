@@ -11,16 +11,18 @@
 #include "SFML/Graphics.hpp"
 #include "Menu.h"
 #include "Game.h"
+#include "Audio.h"
 using namespace std;
 
 int main()
 {
 	int openMenu = 1, playGame = 0, firstClick=0;
-	int game_Over = 0, win;
+	int game_Over = 0, win, play_sound=1;
 	clock_t start, test;
 	Menu menu ;
 	Game game;
 	game.prepareTextures();
+	Audio finalSound;
 	sf::RenderWindow window(sf::VideoMode(960, 660), "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
 	
 	while (window.isOpen())
@@ -85,12 +87,14 @@ int main()
 								win = 0;
 								playGame = 0;
 								game_Over = 1;
+								play_sound = 1;
 							}
 							if (game.ifGameWin())
 							{
 								win = 1;
 								playGame = 0;
 								game_Over = 1;
+								play_sound = 1;
 							}
 						}
 						if (game_Over)
@@ -177,7 +181,11 @@ int main()
 					break;
 			}
 		}
-		
+		if (play_sound && game_Over)
+		{
+			finalSound.playSound(win);
+			play_sound = 0;
+		}
 		window.clear();
 		if (openMenu)
 			menu.draw(window);
