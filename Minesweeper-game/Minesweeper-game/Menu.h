@@ -12,6 +12,7 @@ public:
 	void draw(sf::RenderWindow &window);
 	void focus(int i);
 	void focus_lost(int i);
+	void focusScore(bool focus);
 private:
 	sf::Font arialrounded;
 	sf::Font cooper;
@@ -19,6 +20,7 @@ private:
 	sf::Text title1;
 	sf::Text title2;
 	sf::Text title3;
+	sf::Text scoreboard;
 	sf::Texture menuTexture;
 	sf::Sprite menuSprite;
 };

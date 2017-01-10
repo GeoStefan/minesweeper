@@ -1,3 +1,6 @@
-﻿  Audio.cpp
+﻿  Scoreboard.cpp
+c:\users\geo\source\repos\minesweeper\minesweeper-game\minesweeper-game\scoreboard.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\geo\source\repos\minesweeper\minesweeper-game\minesweeper-game\scoreboard.cpp(98): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\geo\source\repos\minesweeper\minesweeper-game\minesweeper-game\scoreboard.cpp(107): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Minesweeper game.vcxproj -> C:\Users\Geo\Source\Repos\minesweeper\Minesweeper-game\Minesweeper-game\Debug\Minesweeper game.exe
   Minesweeper game.vcxproj -> C:\Users\Geo\Source\Repos\minesweeper\Minesweeper-game\Minesweeper-game\Debug\Minesweeper game.pdb (Partial PDB)

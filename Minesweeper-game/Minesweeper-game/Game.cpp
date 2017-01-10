@@ -5,6 +5,7 @@
 #include "SFML/Graphics.hpp"
 #include "Game.h"
 #include "Board.h"
+#include "Scoreboard.h"
 using namespace std;
 
 Afisare board;
@@ -252,7 +253,7 @@ bool Game::ifMine(int x, int y)
 {
 	int coordx = x, coordy = y;
 	position(coordx, coordy);
-	if (mat[coordy][coordx] == -1)
+	if (mat[coordy][coordx] == -1 && viz[coordy][coordx]==1)
 		return true;
 	return false;
 }

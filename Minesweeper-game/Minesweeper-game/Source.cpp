@@ -12,17 +12,21 @@
 #include "Menu.h"
 #include "Game.h"
 #include "Audio.h"
+#include "Scoreboard.h"
 using namespace std;
 
 int main()
 {
 	int openMenu = 1, playGame = 0, firstClick=0;
-	int game_Over = 0, win, play_sound=1;
+	int game_Over = 0, win, play_sound=1, openScoreboard=0 , scrie_scor=0;
+	char dif;
 	clock_t start, test;
 	Menu menu ;
 	Game game;
 	game.prepareTextures();
 	Audio finalSound;
+	Scoreboard scoreboard;
+	scoreboard.initScores();
 	sf::RenderWindow window(sf::VideoMode(960, 660), "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
 	
 	while (window.isOpen())
@@ -32,7 +36,8 @@ int main()
 		{
 			switch (event.type)
 			{
-				case sf::Event::Closed:                   
+				case sf::Event::Closed: 
+					scoreboard.scrieInFisier();
 					window.close();
 					break;
 				case sf::Event::MouseButtonPressed:					
@@ -59,6 +64,7 @@ int main()
 								game.init('e');
 								firstClick = 1;
 								openMenu = 0;
+								dif = 'e';
 							}
 							if (sf::Mouse::getPosition(window).x >= 450 && sf::Mouse::getPosition(window).x < 563 && sf::Mouse::getPosition(window).y >= 320 && sf::Mouse::getPosition(window).y < 350)
 							{
@@ -66,6 +72,7 @@ int main()
 								game.init('m');
 								firstClick = 1;
 								openMenu = 0;
+								dif = 'm';
 							}
 							if(sf::Mouse::getPosition(window).x >= 590 && sf::Mouse::getPosition(window).x < 660 && sf::Mouse::getPosition(window).y >= 320 && sf::Mouse::getPosition(window).y < 350)
 							{
@@ -73,6 +80,12 @@ int main()
 								game.init('h');
 								firstClick = 1;
 								openMenu = 0;
+								dif = 'h';
+							}
+							if (sf::Mouse::getPosition(window).x >= 413 && sf::Mouse::getPosition(window).x < 603 && sf::Mouse::getPosition(window).y >= 400 && sf::Mouse::getPosition(window).y < 433)
+							{
+								openMenu = 0;
+								openScoreboard = 1;
 							}
 						}
 
@@ -95,6 +108,7 @@ int main()
 								playGame = 0;
 								game_Over = 1;
 								play_sound = 1;
+								scrie_scor = 1;
 							}
 						}
 						if (game_Over)
@@ -105,7 +119,18 @@ int main()
 								openMenu = 1;
 							}
 							if (sf::Mouse::getPosition(window).x >= 30 && sf::Mouse::getPosition(window).x < 87 && sf::Mouse::getPosition(window).y >= 80 && sf::Mouse::getPosition(window).y < 109)
+							{
+								scoreboard.scrieInFisier();
 								window.close();
+							}
+						}
+						if (openScoreboard)
+						{
+							if (sf::Mouse::getPosition(window).x >= 75 && sf::Mouse::getPosition(window).x < 133 && sf::Mouse::getPosition(window).y >= 115 && sf::Mouse::getPosition(window).y < 138)
+							{
+								openScoreboard = 0;
+								openMenu = 1;
+							}
 						}
 					}
 					else
@@ -166,6 +191,12 @@ int main()
 						}
 						else
 							menu.focus_lost(2);
+						if (event.mouseMove.x >= 413 && event.mouseMove.x  < 603 && event.mouseMove.y >= 400 && event.mouseMove.y < 433)
+						{
+							menu.focusScore(true);
+						}
+						else
+							menu.focusScore(false);
 					}     //close openmenu
 					if (game_Over)
 					{
@@ -178,8 +209,16 @@ int main()
 						else
 							game.gameOverFocus(2, 0);
 					}
+					if (openScoreboard)
+					{
+						if (sf::Mouse::getPosition(window).x >= 75 && sf::Mouse::getPosition(window).x < 133 && sf::Mouse::getPosition(window).y >= 115 && sf::Mouse::getPosition(window).y < 138)
+							scoreboard.focusBack(true);
+						else
+							scoreboard.focusBack(false);
+					}
 					break;
 			}
+			//cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << endl;
 		}
 		if (play_sound && game_Over)
 		{
@@ -210,6 +249,15 @@ int main()
 			m = t / 60;
 			s = t % 60;
 			game.timer(m, s, window);
+			if (win && scrie_scor)
+			{
+				scoreboard.writeScore(m, s, dif);
+				scrie_scor=0;
+			}
+		}
+		if(openScoreboard)
+		{
+			scoreboard.afisareScoreboard(window);
 		}
 		window.display();
 	}

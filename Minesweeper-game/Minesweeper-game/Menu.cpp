@@ -21,7 +21,7 @@ Menu::Menu()
 	title3.setFont(arialrounded);
 	title3.setString("Please select difficulty");
 	title3.setPosition(320, 250);
-	title3.setFillColor(sf::Color::White);
+	title3.setFillColor(sf::Color(255, 242, 204,255));
 	title3.setCharacterSize(34);
 
 	difficulty[0].setFont(arialrounded);
@@ -41,6 +41,12 @@ Menu::Menu()
 
 	menuTexture.loadFromFile("game-background.jpg");
 	menuSprite.setTexture(menuTexture);
+
+	scoreboard.setFont(arialrounded);
+	scoreboard.setString("Scoreboard");
+	scoreboard.setCharacterSize(34);
+	scoreboard.setFillColor(sf::Color(255, 242, 204,255));
+	scoreboard.setPosition(sf::Vector2f(413, 400));
 }
 
 void Menu::draw(sf::RenderWindow &window)
@@ -52,6 +58,7 @@ void Menu::draw(sf::RenderWindow &window)
 	{
 		window.draw(difficulty[i]);
 	}
+	window.draw(scoreboard);
 }
 
 void Menu::focus(int i)
@@ -62,4 +69,12 @@ void Menu::focus(int i)
 void Menu::focus_lost(int i)
 {
 	difficulty[i].setFillColor(sf::Color::White);
+}
+
+void Menu::focusScore(bool focus)
+{
+	if (focus)
+		scoreboard.setFillColor(sf::Color::Yellow);
+	else
+		scoreboard.setFillColor(sf::Color(255, 242, 204, 255));
 }

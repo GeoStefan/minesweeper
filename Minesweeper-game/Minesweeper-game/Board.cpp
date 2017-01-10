@@ -176,8 +176,8 @@ void Afisare::afisareBoard(int mat[16][30], int viz[16][30], int length, int wid
 		}
 	square.setSize(sf::Vector2f(squareSize, squareSize));
 
-	for (int i = 0; i<length; i++)
-		for (int j = 0; j < width; j++)
+	for (int i = 0; i < length; i++)
+		for (int j = 0; j < width; j++)   
 		{
 			if (viz[i][j] == 0)
 				square.setTextureRect(sf::IntRect(784, 363, 150, 150));
