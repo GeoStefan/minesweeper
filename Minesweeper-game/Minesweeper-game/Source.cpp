@@ -18,7 +18,7 @@ using namespace std;
 int main()
 {
 	int openMenu = 1, playGame = 0, firstClick=0;
-	int game_Over = 0, win, play_sound=1, openScoreboard=0 , scrie_scor=0;
+	int game_Over = 0, win, play_sound=1, openScoreboard=0 , scrie_scor=0, openInstructions=0;
 	char dif;
 	clock_t start, test;
 	Menu menu ;
@@ -87,6 +87,12 @@ int main()
 								openMenu = 0;
 								openScoreboard = 1;
 							}
+							if (sf::Mouse::getPosition(window).x >= 412 && sf::Mouse::getPosition(window).x < 603 && sf::Mouse::getPosition(window).y >= 470 && sf::Mouse::getPosition(window).y < 503)
+							{
+								//cout << "instructions" << endl;
+								openInstructions = 1;
+								openMenu = 0;
+							}
 						}
 
 						if (playGame)
@@ -132,6 +138,14 @@ int main()
 								openMenu = 1;
 							}
 						}
+						if (openInstructions)
+						{
+							if (sf::Mouse::getPosition(window).x >= 75 && sf::Mouse::getPosition(window).x < 133 && sf::Mouse::getPosition(window).y >= 115 && sf::Mouse::getPosition(window).y < 138)
+							{
+								openInstructions = 0;
+								openMenu = 1;
+							}
+						}
 					}
 					else
 						if (event.key.code == sf::Mouse::Right)
@@ -158,6 +172,7 @@ int main()
 											win = 0;
 											playGame = 0;
 											game_Over = 1;
+											play_sound = 1;
 										}
 										else
 										if (game.ifGameWin())
@@ -165,6 +180,8 @@ int main()
 											win = 1;
 											playGame = 0;
 											game_Over = 1;
+											play_sound = 1;
+											scrie_scor = 1;
 										}
 									}
 								}
@@ -193,10 +210,16 @@ int main()
 							menu.focus_lost(2);
 						if (event.mouseMove.x >= 413 && event.mouseMove.x  < 603 && event.mouseMove.y >= 400 && event.mouseMove.y < 433)
 						{
-							menu.focusScore(true);
+							menu.focusScore(true,'s');
 						}
 						else
-							menu.focusScore(false);
+							menu.focusScore(false,'s');
+						if (event.mouseMove.x >= 412 && event.mouseMove.x  < 603 && event.mouseMove.y >= 470 && event.mouseMove.y < 503)
+						{
+							menu.focusScore(true, 'i');
+						}
+						else
+							menu.focusScore(false, 'i');
 					}     //close openmenu
 					if (game_Over)
 					{
@@ -215,6 +238,13 @@ int main()
 							scoreboard.focusBack(true);
 						else
 							scoreboard.focusBack(false);
+					}
+					if (openInstructions)
+					{
+						if (sf::Mouse::getPosition(window).x >= 75 && sf::Mouse::getPosition(window).x < 133 && sf::Mouse::getPosition(window).y >= 115 && sf::Mouse::getPosition(window).y < 138)
+							menu.focusBack(true);
+						else
+							menu.focusBack(false);
 					}
 					break;
 			}
@@ -258,6 +288,10 @@ int main()
 		if(openScoreboard)
 		{
 			scoreboard.afisareScoreboard(window);
+		}
+		if (openInstructions)
+		{
+			menu.drawInstructions(window);
 		}
 		window.display();
 	}

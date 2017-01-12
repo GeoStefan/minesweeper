@@ -20,6 +20,9 @@ private:
 	sf::Font fontScore;
 	sf::Font fontDifficulty;
 	sf::Texture menuTexture;
+	sf::Texture crownTexture;
+	sf::RectangleShape crownShape;
+	sf::RectangleShape dreptunghi;
 	sf::Sprite menuSprite;
 	void newHighscore(int newscore, int &score1, int &score2, int &score3);
 };

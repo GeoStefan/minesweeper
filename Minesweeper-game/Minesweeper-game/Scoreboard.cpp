@@ -41,6 +41,15 @@ Scoreboard::Scoreboard()
 	secunde.setFont(fontScore);
 	secunde.setCharacterSize(24);
 	secunde.setFillColor(sf::Color::White);
+
+	crownTexture.loadFromFile("Images/crown.png");
+	crownShape.setTexture(&crownTexture);
+
+	dreptunghi.setFillColor(sf::Color(33, 114, 49, 255));
+	dreptunghi.setSize(sf::Vector2f(560, 30));
+	dreptunghi.setOutlineThickness(5);
+	dreptunghi.setOutlineColor(sf::Color(26, 71, 35, 255));
+	dreptunghi.setPosition(sf::Vector2f(190, 300));
 }
 
 void Scoreboard::initScores()
@@ -49,7 +58,7 @@ void Scoreboard::initScores()
 	int i = 0;
 	while (i < 3)
 	{
-		fe >> secE[i++];
+		fe >> secE[i++]; 
 	}
 	fe.close();
 
@@ -79,6 +88,13 @@ void Scoreboard::afisareScoreboard(sf::RenderWindow &window)
 	{
 		window.draw(difficulty[i]);
 	}
+	dreptunghi.setPosition(sf::Vector2f(190, 300));
+	window.draw(dreptunghi);
+	dreptunghi.setPosition(sf::Vector2f(190, 350));
+	window.draw(dreptunghi);
+	dreptunghi.setPosition(sf::Vector2f(190, 400));
+	window.draw(dreptunghi);
+
 	int min, sec;
 	for (int i = 0; i < 3; i++)
 	{
@@ -107,6 +123,18 @@ void Scoreboard::afisareScoreboard(sf::RenderWindow &window)
 		secunde.setPosition(sf::Vector2f(672, 300 + i * 50));
 		window.draw(secunde);
 	}
+	crownShape.setSize(sf::Vector2f(60, 40));
+	crownShape.setPosition(sf::Vector2f(110, 288));
+	crownShape.setTextureRect(sf::IntRect(28,167,430,400));
+	window.draw(crownShape);
+	crownShape.setSize(sf::Vector2f(90, 50));
+	crownShape.setPosition(sf::Vector2f(110, 400));
+	crownShape.setTextureRect(sf::IntRect(523, 282, 480, 300));
+	window.draw(crownShape);
+	crownShape.setSize(sf::Vector2f(40, 40));
+	crownShape.setPosition(sf::Vector2f(118, 338));
+	crownShape.setTextureRect(sf::IntRect(1003, 95, 300, 450));
+	window.draw(crownShape);
 }
 
 void Scoreboard::focusBack(bool focus)
