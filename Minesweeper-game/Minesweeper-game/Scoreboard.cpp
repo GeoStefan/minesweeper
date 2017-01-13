@@ -28,6 +28,11 @@ Scoreboard::Scoreboard()
 	buttonBack.setString("Back");
 	buttonBack.setPosition(75, 115);
 
+	buttonReset.setFont(fontDifficulty);
+	buttonReset.setCharacterSize(34);
+	buttonReset.setFillColor(sf::Color::Yellow);
+	buttonReset.setString("Reset");
+
 	difficulty[0].setString("Easy");
 	difficulty[1].setString("Medium");
 	difficulty[2].setString("Hard");
@@ -52,34 +57,28 @@ Scoreboard::Scoreboard()
 	dreptunghi.setPosition(sf::Vector2f(190, 300));
 }
 
-void Scoreboard::initScores()
+void Scoreboard::initScores()			//citirea scorurilor din fisier
 {
-	ifstream fe("easyscore.txt");
+	ifstream f("scores.txt");
 	int i = 0;
 	while (i < 3)
 	{
-		fe >> secE[i++]; 
+		f >> secE[i++];
 	}
-	fe.close();
-
-	ifstream fm("mediumscore.txt");
 	i = 0;
 	while (i < 3)
 	{
-		fm >> secM[i++];
+		f >> secM[i++];
 	}
-	fm.close();
-
-	ifstream fh("hardscore.txt");
 	i = 0;
 	while (i < 3)
 	{
-		fh >> secH[i++];
+		f >> secH[i++];
 	}
-	fh.close();
+	f.close();
 }
 
-void Scoreboard::afisareScoreboard(sf::RenderWindow &window)
+void Scoreboard::afisareScoreboard(sf::RenderWindow &window)			//afisarea paginii de Scoreboard
 {
 	window.draw(menuSprite);
 	window.draw(title);
@@ -98,30 +97,55 @@ void Scoreboard::afisareScoreboard(sf::RenderWindow &window)
 	int min, sec;
 	for (int i = 0; i < 3; i++)
 	{
-		min = secE[i] / 60;
-		sec = secE[i] % 60;
-		string s = to_string(min) + " : " + to_string(sec);
-		secunde.setString(s);
+		if (secE[i] < 3599)
+		{
+			min = secE[i] / 60;
+			sec = secE[i] % 60;
+			string s = to_string(min) + " : " + to_string(sec);
+			secunde.setString(s);
+		}
+		else
+		{
+			string s = " - : - ";
+			secunde.setString(s);
+		}
+		
 		secunde.setPosition(sf::Vector2f(210, 300 + i * 50));
-		window.draw(secunde);
+		window.draw(secunde);									//afiseaza scorul de la Easy
 	}
 	for (int i = 0; i < 3; i++)
 	{
-		min = secM[i] / 60;
-		sec = secM[i] % 60;
-		string s = to_string(min) + " : " + to_string(sec);
-		secunde.setString(s);
+		if (secM[i] < 3599)
+		{
+			min = secM[i] / 60;
+			sec = secM[i] % 60;
+			string s = to_string(min) + " : " + to_string(sec);
+			secunde.setString(s);
+		}
+		else
+		{
+			string s = " - : - ";
+			secunde.setString(s);
+		}
 		secunde.setPosition(sf::Vector2f(450, 300 + i * 50));
-		window.draw(secunde);
+		window.draw(secunde);									//afiseaza scorul de la Medium
 	}
 	for (int i = 0; i < 3; i++)
 	{
-		min = secH[i] / 60;
-		sec = secH[i] % 60;
-		string s = to_string(min) + " : " + to_string(sec);
-		secunde.setString(s);
+		if (secH[i] < 3599)
+		{
+			min = secH[i] / 60;
+			sec = secH[i] % 60;
+			string s = to_string(min) + " : " + to_string(sec);
+			secunde.setString(s);
+		}
+		else
+		{
+			string s = " - : - ";
+			secunde.setString(s);
+		}
 		secunde.setPosition(sf::Vector2f(672, 300 + i * 50));
-		window.draw(secunde);
+		window.draw(secunde);									//afiseaza scorul de la Hard
 	}
 	crownShape.setSize(sf::Vector2f(60, 40));
 	crownShape.setPosition(sf::Vector2f(110, 288));
@@ -135,6 +159,12 @@ void Scoreboard::afisareScoreboard(sf::RenderWindow &window)
 	crownShape.setPosition(sf::Vector2f(118, 338));
 	crownShape.setTextureRect(sf::IntRect(1003, 95, 300, 450));
 	window.draw(crownShape);
+	buttonReset.setPosition(200, 440);
+	window.draw(buttonReset);
+	buttonReset.setPosition(430, 440);
+	window.draw(buttonReset);
+	buttonReset.setPosition(650, 440);
+	window.draw(buttonReset);
 }
 
 void Scoreboard::focusBack(bool focus)
@@ -145,7 +175,7 @@ void Scoreboard::focusBack(bool focus)
 		buttonBack.setFillColor(sf::Color::White);
 }
 
-void Scoreboard::newHighscore(int newscore, int &score1, int &score2, int &score3)
+void Scoreboard::newHighscore(int newscore, int &score1, int &score2, int &score3)	//modifica scorurile in cazul in care e scor record
 {
 	if (newscore < score1)
 	{
@@ -164,7 +194,7 @@ void Scoreboard::newHighscore(int newscore, int &score1, int &score2, int &score
 				score3 = newscore;
 }
 
-void Scoreboard::writeScore(int m, int s, char mode)
+void Scoreboard::writeScore(int m, int s, char mode)	//apeleaza modificarea scorurilor in functie de mod
 {
 	int newscore = m * 60 + s;
 	switch (mode)
@@ -181,21 +211,33 @@ void Scoreboard::writeScore(int m, int s, char mode)
 	}
 }
 
-void Scoreboard::scrieInFisier()
+void Scoreboard::scrieInFisier()		//scrie scorurile in fisier
 {
-	ofstream ge("easyscore.txt");
-	ge << secE[0] << " ";
-	ge << secE[1] << " ";
-	ge << secE[2] << " ";
-	ge.close();
-	ofstream gm("mediumscore.txt");
-	gm << secM[0] << " ";
-	gm << secM[1] << " ";
-	gm << secM[2] << " ";
-	gm.close();
-	ofstream gh("hardscore.txt");
-	gh << secH[0] << " ";
-	gh << secH[1] << " ";
-	gh << secH[2] << " ";
-	gh.close();
+	ofstream g("scores.txt");
+	for (int i = 0; i < 3; i++)
+		g << secE[i] << " ";
+	for (int i = 0; i < 3; i++)
+		g << secM[i] << " ";
+	for (int i = 0; i < 3; i++)
+		g << secH[i] << " ";
+	g.close();
+}
+
+void Scoreboard::resetScore(char mode)
+{
+	switch (mode)
+	{
+	case 'e':
+		for (int i = 0; i < 3; i++)
+			secE[i] = 3599;
+		break;
+	case 'm':
+		for (int i = 0; i < 3; i++)
+			secM[i] = 3599;
+		break;
+	case 'h':
+		for (int i = 0; i < 3; i++)
+			secH[i] = 3599;
+		break;
+	}
 }

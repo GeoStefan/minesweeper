@@ -15,7 +15,7 @@ Game::Game()
 
 }
 
-void Game::init(char difficulty)
+void Game::init(char difficulty)					//functia care initializeaza dimensiunile matricii in functie de dificultate
 {
 	switch (difficulty)
 	{
@@ -38,7 +38,7 @@ void Game::init(char difficulty)
 		mode = 'h';
 		break;
 	}
-	cout << "difi " << mode <<" length " <<length<<" width "<<width<< endl;
+	//cout << "dificultate " << mode <<" length " <<length<<" width "<<width<< endl;
 	for(int i=0;i<length;i++)
 		for (int j = 0; j < width; j++)
 		{
@@ -47,9 +47,9 @@ void Game::init(char difficulty)
 		}
 	nrFlags = 0;
 	nrCorrect_box = 0;
-}
+}	   
 
-bool Game::mouseInBoard(int x, int y)
+bool Game::mouseInBoard(int x, int y)			//functia care verifica daca s-a apasat click pe matrice
 {
 	bool inBoard = false;
 	switch (mode)
@@ -70,7 +70,7 @@ bool Game::mouseInBoard(int x, int y)
 	return inBoard;
 }
 
-void Game::position(int &x, int &y)
+void Game::position(int &x, int &y)				//transformarea coordonatelor click-ului in coordonatele din matrice
 {
 	switch (mode)
 	{
@@ -95,7 +95,7 @@ void Game::position(int &x, int &y)
 	}
 }
 
-bool Game::isNotMineFirst(int x, int y, int newX, int newY)
+bool Game::isNotMineFirst(int x, int y, int newX, int newY)			//verifica daca nu s-a generat bomba in coordonatele primului click
 {
 	if (x == newX && y == newY)
 		return false;
@@ -109,16 +109,13 @@ bool Game::isNotMineFirst(int x, int y, int newX, int newY)
 
 void Game::matrix( int first_x, int first_y)
 {
-	/*for (int i = 0; i < length; i++)
-		for (int j = 0; j < width; j++)
-			mat[i][j] = 0;*/
 	random_device rd;
 	mt19937 gen(rd());
 	uniform_int_distribution<> dist(0, width - 1);
 	int i = 0, l, c;
 	int oriz[8] = { -1,-1,-1,0,1,1,1,0 };
 	int vert[8] = { -1,0,1,1,1,0,-1,-1 };
-	while (i < nrMines)
+	while (i < nrMines)							//generarea random a pozitiei bombelor
 	{
 		l = dist(gen);
 		c = dist(gen);
@@ -134,7 +131,7 @@ void Game::matrix( int first_x, int first_y)
 			}
 	}
 
-	for (int i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)			//calcularea numarului de bombe vecine 
 		for (int j = 0; j < width; j++)
 			if (mat[i][j] == 0)
 				for (int k = 0; k < 8; k++)
@@ -143,7 +140,7 @@ void Game::matrix( int first_x, int first_y)
 							mat[i][j]++;
 }
 
-void Game::safeZone(int x, int y)
+void Game::safeZone(int x, int y)		//parcurge toata zona cu patratele in care se gaseste 0 si marcheaza ca vizitate si patratele adiacente
 {
 	viz[x][y] = 1;
 	nrCorrect_box++;
@@ -221,35 +218,29 @@ void Game::safeZone(int x, int y)
 			}
 }
 
-void Game::firstClickLeft(int x, int y)
+void Game::firstClickLeft(int x, int y)			//functia apelata pentru primul click stanga
 {
 	int coordx = x, coordy = y;
 	position(coordx, coordy);
-	//cout << "coordonatele in firstclick " << coordy << " " << coordx << endl;
 	viz[coordy][coordx] = 1;
 	matrix(coordy, coordx);
 	safeZone(coordy, coordx);
+	/*
 	for (int i = 0; i < length; i++)
 	{
 		for (int j = 0; j < width; j++)
 			cout << " " << mat[i][j] << " ";
 		cout << endl;
 	}
-	cout << endl;/*
-	for (int i = 0; i < length; i++)
-	{
-		for (int j = 0; j < width; j++)
-			cout << viz[i][j] << " ";
-		cout << endl;
-	}*/
+	cout << endl;*/
 }
 
-void Game::drawBoard(sf::RenderWindow &window)
+void Game::drawBoard(sf::RenderWindow &window)				//apeleaza afisarea matricii si a ferestrei in joc
 {
 	board.afisareMatrix(mat, viz, length, width, mode, window, nrMines-nrFlags);
 }
 
-bool Game::ifMine(int x, int y)
+bool Game::ifMine(int x, int y)				//verifica daca utilizatorul a apasat pe o bomba
 {
 	int coordx = x, coordy = y;
 	position(coordx, coordy);
@@ -258,7 +249,7 @@ bool Game::ifMine(int x, int y)
 	return false;
 }
 
-bool Game::ifGameWin()
+bool Game::ifGameWin()						//verifica daca s-a castigat jocul
 {
 	if (nrCorrect_box == width*length - nrMines)
 		return true;
@@ -273,30 +264,29 @@ void Game::inGame(int x, int y, char mouse)
 	if (viz[y][x] == 0)
 		if (mouse == 's')
 		{
-			viz[y][x] = 1;
+			viz[y][x] = 1;				//viziteaza patratul in care s-a dat click stanga
 			if (mat[y][x] != -1)
-				nrCorrect_box++;
+				nrCorrect_box++;		//creste numarul de raspunsuri corecte daca nu s-a apasat pe bomba
 			if (mat[y][x] == 0)
 			{
 				nrCorrect_box--;
-				safeZone(y, x);
+				safeZone(y, x);			//viziteaza toata zona cu patrate de 0 daca este cazul
 			}
 		}
 		else
-			if (nrFlags < maxFlags)
+		{
+			if (nrFlags < maxFlags)		//marcarea cu steag
 			{
 				viz[y][x] = 2;
 				nrFlags++;
 			}
-			else
-				cout << endl << "Ai folosit deja toate steagurile posibile " << endl;
+		}
 	else
-		if (viz[y][x] == 2 && mouse == 'd')
+		if (viz[y][x] == 2 && mouse == 'd')		//demarcarea steagului
 		{
 			viz[y][x] = 0;
 			nrFlags--;
 		}
-
 }
 
 void Game::prepareTextures()
@@ -306,15 +296,15 @@ void Game::prepareTextures()
 
 void Game::gameOver(int win,sf::RenderWindow &window)
 {
-	for (int i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)			
 		for (int j = 0; j < width; j++)
 			if (mat[i][j] == -1)
 				if (viz[i][j] == 0)
-					viz[i][j] = 1;
+					viz[i][j] = 1;				//viziteaza toate bombele nevizitate
 				else
 					if (viz[i][j] == 2)
-						viz[i][j] = 3;
-	board.gameOver(mat,viz,length,width,mode,window,win);
+						viz[i][j] = 3;			//marcheaza diferit minele dezamorsate
+	board.gameOver(mat,viz,length,width,mode,window,win);		//afisarea matricii finale 
 }
 
 void Game::gameOverFocus(int element, bool focus)
@@ -333,7 +323,7 @@ bool Game::middleClick(int x, int y)
 	int vert[8] = { -1,0,1,1,1,0,-1,-1 };
 	bool mine = false;
 	position(x, y);
-	if (viz[y][x] == 0)
+	if (viz[y][x] == 0)				//se analizeaza patratul in care s-a apasat middle-click
 	{
 		viz[y][x] = 1;
 		if (mat[y][x] > 0)
@@ -345,7 +335,7 @@ bool Game::middleClick(int x, int y)
 				if (mat[y][x] == -1)
 					mine = true;
 		if(mat[y][x]!=0)
-		for(int i=0;i<8;i++)
+		for(int i=0;i<8;i++)															//se analizeaza toata zona de 3x3
 			if(oriz[i]+y>=0 && oriz[i]+y<length && vert[i]+x>=0 && vert[i]+x<width)
 				if (viz[oriz[i] + y][vert[i] + x] == 0)
 				{
@@ -357,7 +347,7 @@ bool Game::middleClick(int x, int y)
 							safeZone(oriz[i] + y, vert[i] + x);
 						else
 							if (mat[oriz[i] + y][vert[i] + x] == -1)
-								mine = true;
+								mine = true;									//verifica daca s-a apasat pe o mina
 				}
 	}
 	return mine;

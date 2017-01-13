@@ -76,9 +76,9 @@ Menu::Menu()
 	instructionImage.setTexture(instructionTexture);
 }
 
-void Menu::draw(sf::RenderWindow &window)
+void Menu::draw(sf::RenderWindow &window)		//afiseaza fereastra de meniu
 {
-	window.draw(menuSprite);
+	window.draw(menuSprite);	
 	window.draw(title2);
 	window.draw(title3);
 	for (int i = 0; i < NUMBER_OF_DIFFICULTIES; i++)
@@ -99,7 +99,7 @@ void Menu::focus_lost(int i)
 	difficulty[i].setFillColor(sf::Color::White);
 }
 
-void Menu::focusScore(bool focus, char tab)
+void Menu::focusScore(bool focus, char tab)		//stabileste culoarea in caz de focus pe Scoreboard si Instructions
 {
 	switch (tab)
 	{
@@ -119,7 +119,7 @@ void Menu::focusScore(bool focus, char tab)
 	
 }
 
-void Menu::drawInstructions(sf::RenderWindow &window)
+void Menu::drawInstructions(sf::RenderWindow &window)		//afisarea paginii de instructiuni
 {
 	window.draw(menuSprite);
 	window.draw(title1);

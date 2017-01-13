@@ -137,6 +137,12 @@ int main()
 								openScoreboard = 0;
 								openMenu = 1;
 							}
+							if (sf::Mouse::getPosition(window).x >= 200 && sf::Mouse::getPosition(window).x < 297 && sf::Mouse::getPosition(window).y >= 440 && sf::Mouse::getPosition(window).y < 474)
+								scoreboard.resetScore('e');
+							if (sf::Mouse::getPosition(window).x >= 430 && sf::Mouse::getPosition(window).x < 526 && sf::Mouse::getPosition(window).y >= 440 && sf::Mouse::getPosition(window).y < 474)
+								scoreboard.resetScore('m');
+							if (sf::Mouse::getPosition(window).x >= 650 && sf::Mouse::getPosition(window).x < 748 && sf::Mouse::getPosition(window).y >= 440 && sf::Mouse::getPosition(window).y < 474)
+								scoreboard.resetScore('h');
 						}
 						if (openInstructions)
 						{

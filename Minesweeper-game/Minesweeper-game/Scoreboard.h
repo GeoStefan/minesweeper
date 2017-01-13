@@ -11,10 +11,12 @@ public:
 	void focusBack(bool focus);
 	void initScores();
 	void scrieInFisier();
+	void resetScore(char mode);
 private:
 	int secE[3],secM[3],secH[3];
 	sf::Text title;
 	sf::Text buttonBack;
+	sf::Text buttonReset;
 	sf::Text difficulty[3];
 	sf::Text secunde;
 	sf::Font fontScore;

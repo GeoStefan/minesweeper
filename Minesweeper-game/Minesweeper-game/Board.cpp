@@ -5,7 +5,7 @@
 #include "SFML/Graphics.hpp"
 using namespace std;
 
-void Afisare::afisareMode(sf::RenderWindow &window, char difficulty)
+void Afisare::afisareMode(sf::RenderWindow &window, char difficulty)		//afisarea modului de joc ales
 {
 	switch (difficulty)
 	{
@@ -27,10 +27,10 @@ void Afisare::afisareMode(sf::RenderWindow &window, char difficulty)
 
 void Afisare::afisareMatrix(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window, int nrFlags)
 {
-	window.draw(boardSprite);
-	afisareMode(window, difficulty);
-	afisNrAvailableFlags(nrFlags,window);
-	afisareBoard(mat, viz, length, width, difficulty, window);
+	window.draw(boardSprite);									//desenarea background-ului
+	afisareMode(window, difficulty);							//afisarea modului
+	afisNrAvailableFlags(nrFlags,window);						//afisarea numarului de steaguri disponibile
+	afisareBoard(mat, viz, length, width, difficulty, window);	//afisarea matricii
 }
 
 void Afisare::initTextures()
@@ -82,6 +82,9 @@ void Afisare::initTextures()
 	clockIcon.setTextureRect(sf::IntRect(0, 0, 180, 180));
 	clockIcon.setPosition(sf::Vector2f(820, 34));
 	clockIcon.setSize(sf::Vector2f(30, 30));
+
+	timeSec.setFont(arial);
+	timeSeparator.setString(":");
 }
 
 void Afisare::afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window)
@@ -94,7 +97,7 @@ void Afisare::afisNrAvailableFlags(int nrFlags, sf::RenderWindow &window)
 }
 
 void Afisare::gameOver(int mat[16][30], int viz[16][30], int length, int width, char difficulty, sf::RenderWindow &window,int win)
-{
+{																				//afiseaza fereastra de la finalul jocului
 	window.draw(boardSprite);
 	winner.setFont(cooper);
 	winner.setCharacterSize(42);
@@ -117,7 +120,7 @@ void Afisare::gameOver(int mat[16][30], int viz[16][30], int length, int width, 
 
 void Afisare::gameOverFocus(int element, bool focus)
 {
-	switch (focus)
+	switch (focus)							//schimba culoarea butoanelor de Play again si Exit daca mouse-ul se afla deasupra lor
 	{
 	case true:
 		if(element==1)
@@ -134,16 +137,14 @@ void Afisare::gameOverFocus(int element, bool focus)
 	}
 }
 
-void Afisare::timer(int m,int s, sf::RenderWindow &window)
+void Afisare::timer(int m,int s, sf::RenderWindow &window)				//afiseaza timpul
 {
 	char minut[10],sec[10];
 	_itoa_s(m, minut, 10, 10);
 	_itoa_s(s, sec, 10, 10);
 	
 	timeMinut.setString(minut);
-	timeSec.setFont(arial);
 	timeSec.setString(sec);
-	timeSeparator.setString(":");
 
 	window.draw(timeSec);
 	window.draw(timeMinut);
@@ -155,7 +156,7 @@ void Afisare::afisareBoard(int mat[16][30], int viz[16][30], int length, int wid
 {
 	int indentX, indentY;
 	float squareSize;
-	if (difficulty == 'e')
+	if (difficulty == 'e')				//stabilirea marginilor din stanga,sus si marimea patratului in functie de dificultate
 	{
 		squareSize = 45;
 		indentX = 277;
@@ -180,22 +181,21 @@ void Afisare::afisareBoard(int mat[16][30], int viz[16][30], int length, int wid
 		for (int j = 0; j < width; j++)   
 		{
 			if (viz[i][j] == 0)
-				square.setTextureRect(sf::IntRect(784, 363, 150, 150));
+				square.setTextureRect(sf::IntRect(784, 363, 150, 150));				//afiseaza patrat negru pt nevizitat
 			else
 				if (viz[i][j] == 2)
-					square.setTextureRect(sf::IntRect(782, 194, 150, 150));
+					square.setTextureRect(sf::IntRect(782, 194, 150, 150));			//afiseaza steag
 				else
 					if (viz[i][j] == 1)
 					{
 						if (mat[i][j] == -1)
-							square.setTextureRect(sf::IntRect(782, 15, 150, 150));
+							square.setTextureRect(sf::IntRect(782, 15, 150, 150));	//afiseaza bomba
 						else
 							if (mat[i][j] == 0)
-
-								square.setTextureRect(sf::IntRect(953, 194, 150, 150));
+								square.setTextureRect(sf::IntRect(953, 194, 150, 150));	//afiseaza patrat alb pt vizitat
 							else
 							{
-								switch (mat[i][j])
+								switch (mat[i][j])									//afiseaza numarul din patrat
 								{
 								case 1:
 
@@ -234,8 +234,7 @@ void Afisare::afisareBoard(int mat[16][30], int viz[16][30], int length, int wid
 					}
 					else
 						if (viz[i][j] == 3)
-
-							square.setTextureRect(sf::IntRect(949, 15, 150, 150));
+							square.setTextureRect(sf::IntRect(949, 15, 150, 150));		//afiseaza mina dezamorsata
 
 			square.setPosition(sf::Vector2f(squareSize*j + indentX, squareSize*i + indentY));
 			window.draw(square);
