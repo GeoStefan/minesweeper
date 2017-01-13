@@ -1,0 +1,13 @@
+﻿  Board.cpp
+  Menu.cpp
+  Scoreboard.cpp
+Scoreboard.cpp(113): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+Scoreboard.cpp(130): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+Scoreboard.cpp(147): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating code
+  3 of 257 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Minesweeper game.vcxproj -> C:\Users\Geo\Source\Repos\minesweeper\Minesweeper-game\Minesweeper-game\Release\Minesweeper game.exe
+  Minesweeper game.vcxproj -> C:\Users\Geo\Source\Repos\minesweeper\Minesweeper-game\Minesweeper-game\Release\Minesweeper game.pdb (Full PDB)

@@ -6,8 +6,8 @@
 
 Menu::Menu()
 {
-	arialrounded.loadFromFile("arialrounded.TTF");
-	cooper.loadFromFile("COOPBL.TTF");
+	arialrounded.loadFromFile("Fonts/arialrounded.TTF");
+	cooper.loadFromFile("Fonts/COOPBL.TTF");
 	
 	title2.setFont(cooper);
 	title2.setString("Minesweeper");
@@ -35,7 +35,7 @@ Menu::Menu()
 	difficulty[2].setFillColor(sf::Color::White);
 	difficulty[2].setPosition(sf::Vector2f(590, 320));
 
-	menuTexture.loadFromFile("game-background.jpg");
+	menuTexture.loadFromFile("Images/game-background.jpg");
 	menuSprite.setTexture(menuTexture);
 
 	scoreboard.setFont(arialrounded);

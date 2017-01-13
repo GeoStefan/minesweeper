@@ -39,11 +39,11 @@ void Afisare::initTextures()
 	numere.loadFromFile("Images/board-textures.png");
 	square.setTexture(&numere);
 
-	boardTexture.loadFromFile("game-background.jpg");
+	boardTexture.loadFromFile("Images/game-background.jpg");
 	boardSprite.setTexture(boardTexture);
 
-	cooper.loadFromFile("COOPBL.TTF");
-	arial.loadFromFile("arialrounded.TTF");
+	cooper.loadFromFile("Fonts/COOPBL.TTF");
+	arial.loadFromFile("Fonts/arialrounded.TTF");
 	mode.setFillColor(sf::Color::Yellow);
 	mode.setCharacterSize(62);
 	mode.setFont(cooper);

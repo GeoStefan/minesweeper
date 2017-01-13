@@ -8,8 +8,8 @@ using namespace std;
 
 Scoreboard::Scoreboard()
 {
-	fontScore.loadFromFile("arialrounded.TTF");
-	fontDifficulty.loadFromFile("COOPBL.TTF");
+	fontScore.loadFromFile("Fonts/arialrounded.TTF");
+	fontDifficulty.loadFromFile("Fonts/COOPBL.TTF");
 	for (int i = 0; i < 3; i++)
 	{
 		difficulty[i].setFont(fontDifficulty);
@@ -40,7 +40,7 @@ Scoreboard::Scoreboard()
 	difficulty[1].setPosition(sf::Vector2f(400, 250));
 	difficulty[2].setPosition(sf::Vector2f(655, 250));
 
-	menuTexture.loadFromFile("game-background.jpg");
+	menuTexture.loadFromFile("Images/game-background.jpg");
 	menuSprite.setTexture(menuTexture);
 
 	secunde.setFont(fontScore);
